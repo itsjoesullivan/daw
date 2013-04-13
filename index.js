@@ -3,6 +3,10 @@ var sounds = {
 	's': 'demo/snare.wav'
 };
 
+var channelStrip = new ChannelStrip();
+
 var drumMachine = new DrumMachine({
-	sounds: sounds
+	sounds: sounds,
+	out: channelStrip.input;
 });
+
