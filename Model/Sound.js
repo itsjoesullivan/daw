@@ -1,15 +1,15 @@
-var Sound = function(buffer) {
-	if(typeof buffer === 'string') {
-		this.load(buffer);
-	} else {
-		this.buffer = buffer;
-	}
+
+/** Just a sound. Gives us "play", primarily.
+*/
+var Sound = function(conf) {
+	this.load(conf.path);
+	this.out = conf.out;
 }
 
 Sound.prototype.play = function() {
 	var source = context.createBufferSource();
 	source.buffer = this.buffer;
-	source.connect(context.destination);
+	source.connect(this.out);
 	source.noteOn(0);
 }
 
