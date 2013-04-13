@@ -2,8 +2,8 @@
 /** Basic drum machine
 */
 var DrumMachine = function(conf) {
-	this.input = context.createGain();
-	this.input.connect(context.destination);
+	this.output = context.createGain();
+	this.output.connect(context.destination);
 	var sounds = conf.sounds;
 	this.soundMap = {};
 	var self = this;
@@ -11,7 +11,7 @@ var DrumMachine = function(conf) {
 	for(key in sounds) {
 		self.soundMap[key] = new Sound({
 			path: sounds[key],
-			out: self.input
+			out: self.output
 		});
 	}
 	document.addEventListener('keydown', function(e) {
