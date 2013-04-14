@@ -9,16 +9,17 @@ var Delay = function(conf) {
 	
 	this.effect.delayTime.value = conf.time;
 	
-	//establish feedback loop
-	this.feedbackChannel = context.createGain();
-	this.wetChannel.connect(this.feedbackChannel);
-	this.feedbackChannel.gain.value = conf.feedback;
-	this.feedbackChannel.connect(this.input);
-
-	
-	
+	this.setFeedback(conf.feedback);
 	
 }
 
 Delay.prototype = Object.create( Effect.prototype );
 Delay.prototype.constructor = Delay;
+
+Delay.prototype.setFeedback = function(val) {
+	//establish feedback loop
+	this.feedbackChannel = context.createGain();
+	this.wetChannel.connect(this.feedbackChannel);
+	this.feedbackChannel.gain.value = val;
+	this.feedbackChannel.connect(this.input);
+}

@@ -1,9 +1,10 @@
 
 /** Just a sound. Gives us "play", primarily.
 */
-var Sound = function(conf) {
+var Sound = function(conf,fn) {
 	this.load(conf.path);
 	this.out = conf.out;
+	this.ready = fn;
 }
 
 Sound.prototype.play = function() {
@@ -21,6 +22,9 @@ Sound.prototype.load = function(path,fn) {
 	req.onload = function() {
 		context.decodeAudioData(req.response, function(buffer) {
 			self.buffer = buffer;
+			if(self.ready) {
+				self.ready(self);
+			}
 		});
 	};
 	req.send();

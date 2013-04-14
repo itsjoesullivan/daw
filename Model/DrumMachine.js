@@ -3,7 +3,7 @@
 */
 var DrumMachine = function(conf) {
 	this.output = context.createGain();
-	this.output.connect(context.destination);
+	this.output.connect(conf.out);
 	var sounds = conf.sounds;
 	this.soundMap = {};
 	var self = this;
