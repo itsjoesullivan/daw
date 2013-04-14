@@ -9,8 +9,8 @@ var Effect = function(conf) {
 	this.input.connect(this.effect);
 	
 	//create gain for dry/wet
-	this.wetGain = context.createGain();
-	this.effect.connect(this.wetGain);
+	this.wetChannel = context.createGain();
+	this.effect.connect(this.wetChannel);
 	
 	
 	//add the dry channel
@@ -19,7 +19,11 @@ var Effect = function(conf) {
 
 	
 	this.dry.connect(this.output);
-	this.effect.connect(this.output);
+	this.wetChannel.connect(this.output);
+	
+	for(var i in conf) {
+		this.set(i,conf[i])
+	}
 };
 Effect.prototype.set = function(key,val) {
 	switch(key) {
@@ -31,6 +35,7 @@ Effect.prototype.set = function(key,val) {
 	}
 };
 Effect.prototype.setWet = function(val) {
+	console.log('setWet',val);
 	this.dry.gain.value = 1-val;
-	this.wetGain.gain.value = val;
+	this.wetChannel.gain.value = val;
 };
