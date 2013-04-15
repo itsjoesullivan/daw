@@ -8,6 +8,8 @@ timeline = {
 		this.status = 'stopped';
 	}
 };
+loader.ready(function() {
+	
 
 require(['/Controller/TransportController.js'], function(Timeline) {
 	
@@ -65,4 +67,6 @@ require(['/Controller/TransportController.js'], function(Timeline) {
 	mocha.run();
 	
 });
+
+})
 
