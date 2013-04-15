@@ -3,8 +3,15 @@
 	position:relative;
 	width:100px;
 	height:300px;
+	border-radius:3px;
 }
 .ChannelStripFader {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	border: none;
 	border-top: 1px solid #7792B2;
 	border-left: 1px solid #7792B2;
@@ -18,52 +25,108 @@
 	background: -ms-linear-gradient(top, #495c74 0%,#283747 100%); /* IE10+ */
 	background: linear-gradient(to bottom, #495c74 0%,#283747 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#495c74', endColorstr='#283747',GradientType=0 ); /* IE6-9 */
+	
+}
+.ChannelStripFader .texture-overlay {
+position:absolute;
+height:100%;
+width: 100%;
+opacity:0.5;
+/*background: url(/texture/speck.png);*/
 }
 .ChannelStripFader .channel {
 	background-color:black;
 	position:relative;
 	height:90%;
-	width:2px;
+	width:4px;
 	top:5%;
 	margin:auto;
+	border-radius:2px;
+	border-top:1px solid #222A33;
+	border-left:1px solid #222A33;
 }
+
+@tickGap: 10%;
+@tickOffset: 9%;
+@labelOffset: -2.6%;
 
 .ChannelStripFader .tick {
 	background-color:white;
 	position:absolute;
 	height:2px;
-	width:10%;
+	width:12%;
 	margin:auto;
 	left:55%;
+	border-radius:1px;
+	opacity:.9;
+}
+
+.ChannelStripFader .tick-label {
+	color:white;
+	font-family: Verdana;
+	font-size:.8em;
+	position:absolute;
+	height:2px;
+	width:10%;
+	margin:auto;
+	left: 68%;
+	border-radius:1px;
+	opacity:.9;
+	text-align:center;
+	width:20%;
 }
 
 .ChannelStripFader .tick.n1 {
-	top:5%;
+	top: @tickOffset;
+}
+.ChannelStripFader .tick-label.n1 {
+	top: (@tickOffset + @labelOffset);
 }
 .ChannelStripFader .tick.n2 {
-	top:15%;
+	top:(@tickGap * 1 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n2 {
+	top: (@tickGap * 2 + @labelOffset);
 }
 .ChannelStripFader .tick.n3 {
-	top:25%;
+	top:(@tickGap * 2 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n3 {
+	top: (@tickGap * 3 + @labelOffset);
 }
 .ChannelStripFader .tick.n4 {
-	top:35%;
+	top:(@tickGap * 3 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n4 {
+	top: (@tickGap * 4 + @labelOffset);
 }
 .ChannelStripFader .tick.n5 {
-	top:45%;
+	top:(@tickGap * 4 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n5 {
+	top: (@tickGap * 5 + @labelOffset);
 }
 .ChannelStripFader .tick.n6 {
-	top:55%;
+	top:(@tickGap * 5 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n6 {
+	top: (@tickGap * 6 + @labelOffset);
 }
 .ChannelStripFader .tick.n7 {
-	top:65%;
+	top:(@tickGap * 6 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n7 {
+	top: (@tickGap * 7 + @labelOffset);
 }
 .ChannelStripFader .tick.n8 {
-	top:75%;
+	top:(@tickGap * 7 + @tickOffset);
+}
+.ChannelStripFader .tick-label.n8 {
+	top: (@tickGap * 8 + @labelOffset);
 }
 .ChannelStripFader .tick.n9 {
-	top:85%;
+	top:(@tickGap * 8 + @tickOffset);
 }
-.ChannelStripFader .tick.n10 {
-	top:95%;
+.ChannelStripFader .tick-label.n9 {
+	top: (@tickGap * 9 + @labelOffset);
 }

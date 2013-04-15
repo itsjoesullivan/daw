@@ -1,0 +1,22 @@
+@height: 30px;
+@width: 28px;
+
+.PushButton.RecordButton {
+	width:@width;
+	height:@height;
+	position:relative;
+}
+
+@radius: 12px;
+@topOffset: (@height / 2 - @radius / 2);
+@leftOffset: (@width / 2 - @radius / 2);
+
+.RecordButton .circle {
+	width: @radius; 
+	height: @radius; 
+	top:@topOffset;
+	left: @leftOffset;
+	position:absolute;
+	border-radius:@radius;
+	background-color:red;
+}

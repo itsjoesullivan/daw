@@ -1,0 +1,19 @@
+@height: 30px;
+@width: 100px;
+
+.PushButton.PlayButton {
+	width:@width;
+	height:@height;
+	position:relative;
+}
+
+.PlayButton .triangle {
+	width: 0; 
+	height: 0; 
+	top:8px;
+	left: ( @width / 2 - 2px);
+	position:absolute;
+	border-top: (@height / 4) solid transparent;
+	border-bottom: (@height / 4) solid transparent;
+	border-left: (@height / 3) solid green;
+}

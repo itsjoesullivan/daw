@@ -1,0 +1,66 @@
+@height: 30px;
+@width: 30px;
+
+.PushButton {
+	cursor:pointer;
+	width:@width;
+	height:@height;
+	background-color:black;
+	position:relative;
+	float:left;
+	margin:5px;
+	
+	box-shadow: 1px 1px 1px #222;
+}
+
+.PushButton:active {
+	box-shadow: 0px 0px 0px #222;
+	top:1px;
+	left:1px;
+}
+
+
+/** Color */
+.PushButton {
+background: #c2c9cb; /* Old browsers */
+background: -moz-linear-gradient(top, #c2c9cb 0%, #beb7bd 1%, #a1a1a3 3%, #a1a5a6 5%, #afb7b6 6%, #c6cfce 7%, #d8e1e0 8%, #e1e8e8 9%, #ecebed 14%, #e7e8ea 17%, #e8e9eb 25%, #e6e7ea 28%, #e8e8ec 41%, #e6e7e9 68%, #e9e9eb 70%, #e7e8e9 74%, #e9eaec 77%, #e6e8e9 81%, #e9e8ed 92%, #e4e3e8 93%, #dcd9de 94%, #c9c5cb 95%, #aea7ae 97%, #8a8188 98%, #6e636b 99%, #574b54 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c2c9cb), color-stop(1%,#beb7bd), color-stop(3%,#a1a1a3), color-stop(5%,#a1a5a6), color-stop(6%,#afb7b6), color-stop(7%,#c6cfce), color-stop(8%,#d8e1e0), color-stop(9%,#e1e8e8), color-stop(14%,#ecebed), color-stop(17%,#e7e8ea), color-stop(25%,#e8e9eb), color-stop(28%,#e6e7ea), color-stop(41%,#e8e8ec), color-stop(68%,#e6e7e9), color-stop(70%,#e9e9eb), color-stop(74%,#e7e8e9), color-stop(77%,#e9eaec), color-stop(81%,#e6e8e9), color-stop(92%,#e9e8ed), color-stop(93%,#e4e3e8), color-stop(94%,#dcd9de), color-stop(95%,#c9c5cb), color-stop(97%,#aea7ae), color-stop(98%,#8a8188), color-stop(99%,#6e636b), color-stop(100%,#574b54)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #c2c9cb 0%,#beb7bd 1%,#a1a1a3 3%,#a1a5a6 5%,#afb7b6 6%,#c6cfce 7%,#d8e1e0 8%,#e1e8e8 9%,#ecebed 14%,#e7e8ea 17%,#e8e9eb 25%,#e6e7ea 28%,#e8e8ec 41%,#e6e7e9 68%,#e9e9eb 70%,#e7e8e9 74%,#e9eaec 77%,#e6e8e9 81%,#e9e8ed 92%,#e4e3e8 93%,#dcd9de 94%,#c9c5cb 95%,#aea7ae 97%,#8a8188 98%,#6e636b 99%,#574b54 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #c2c9cb 0%,#beb7bd 1%,#a1a1a3 3%,#a1a5a6 5%,#afb7b6 6%,#c6cfce 7%,#d8e1e0 8%,#e1e8e8 9%,#ecebed 14%,#e7e8ea 17%,#e8e9eb 25%,#e6e7ea 28%,#e8e8ec 41%,#e6e7e9 68%,#e9e9eb 70%,#e7e8e9 74%,#e9eaec 77%,#e6e8e9 81%,#e9e8ed 92%,#e4e3e8 93%,#dcd9de 94%,#c9c5cb 95%,#aea7ae 97%,#8a8188 98%,#6e636b 99%,#574b54 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #c2c9cb 0%,#beb7bd 1%,#a1a1a3 3%,#a1a5a6 5%,#afb7b6 6%,#c6cfce 7%,#d8e1e0 8%,#e1e8e8 9%,#ecebed 14%,#e7e8ea 17%,#e8e9eb 25%,#e6e7ea 28%,#e8e8ec 41%,#e6e7e9 68%,#e9e9eb 70%,#e7e8e9 74%,#e9eaec 77%,#e6e8e9 81%,#e9e8ed 92%,#e4e3e8 93%,#dcd9de 94%,#c9c5cb 95%,#aea7ae 97%,#8a8188 98%,#6e636b 99%,#574b54 100%); /* IE10+ */
+background: linear-gradient(to bottom, #c2c9cb 0%,#beb7bd 1%,#a1a1a3 3%,#a1a5a6 5%,#afb7b6 6%,#c6cfce 7%,#d8e1e0 8%,#e1e8e8 9%,#ecebed 14%,#e7e8ea 17%,#e8e9eb 25%,#e6e7ea 28%,#e8e8ec 41%,#e6e7e9 68%,#e9e9eb 70%,#e7e8e9 74%,#e9eaec 77%,#e6e8e9 81%,#e9e8ed 92%,#e4e3e8 93%,#dcd9de 94%,#c9c5cb 95%,#aea7ae 97%,#8a8188 98%,#6e636b 99%,#574b54 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c2c9cb', endColorstr='#574b54',GradientType=0 ); /* IE6-9 */
+
+border-left: 2px solid #A1A1A3;
+border-right: 2px solid #A1A1A3;
+border-radius:3px;
+
+}
+
+
+
+/* mock */
+.PushButton-mock-backing {
+width:100px;
+height:50px;
+padding:200px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: none;
+	border-top: 1px solid #7792B2;
+	border-left: 1px solid #7792B2;
+	border-bottom: 1px solid #222A33;
+	border-right: 1px solid #222A33;
+	background: #495c74; /* Old browsers */
+	background: -moz-linear-gradient(top, #495c74 0%, #283747 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#495c74), color-stop(100%,#283747)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #495c74 0%,#283747 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #495c74 0%,#283747 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #495c74 0%,#283747 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #495c74 0%,#283747 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#495c74', endColorstr='#283747',GradientType=0 ); /* IE6-9 */
+}
