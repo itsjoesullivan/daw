@@ -1,23 +1,7 @@
-
-
 var TransportController = function(done) {
 	
 	var self = this;
 	
-	require.config({
-	    baseUrl: "/templates",
-	    paths: {
-	        "text": "/lib/text",
-			"css": "/lib/css",
-			"normalize": "/lib/normalize",
-			"less": "/lib/less",
-			"lessc": "/lib/lessc"
-	    },
-	});
-	
-	//define the templates I have
-	var templateNames = ['Transport','PushButton','PlayButton','RecordButton','StopButton'];
-	var templates = {};
 
 	var render = function() {
 		var transport = _.template(templates['Transport']);
@@ -55,24 +39,14 @@ var TransportController = function(done) {
 	}
 	
 	
-	setTimeout(function() {
+	//setTimeout(function() {
 		render();
 		if(typeof done === 'function') {
 			done(self);
 		}
-	},200);
+	//},200);
 
-	//load them up.
-	templateNames.forEach(function(template) {
-		//first do a call for the html
-		var htmlPath = 'text!' + '' + template + '/' + template + '.html';
-		var stylePath = 'less!' + '' + template + '/' + template + '.less';
-		require([stylePath]);
-		require([htmlPath], function(html) {
-			templates[template] = html;
-			//render();
-		});
-	});
+
 	
 };
 
