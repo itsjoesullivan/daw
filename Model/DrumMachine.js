@@ -21,3 +21,9 @@ var DrumMachine = function(conf) {
 		}
 	},true);
 };
+
+if(typeof 'define' !== 'undefined') {
+	define(function() {
+		return DrumMachine;
+	});
+}

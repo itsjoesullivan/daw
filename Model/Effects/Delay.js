@@ -23,3 +23,9 @@ Delay.prototype.setFeedback = function(val) {
 	this.feedbackChannel.gain.value = val;
 	this.feedbackChannel.connect(this.input);
 }
+
+if(typeof 'define' !== 'undefined') {
+	define(function() {
+		return Delay;
+	});
+}

@@ -18,3 +18,9 @@ var Reverb = function(conf) {
 
 Reverb.prototype = Object.create( Effect.prototype );
 Reverb.prototype.constructor = Reverb;
+
+if(typeof 'define' !== 'undefined') {
+	define(function() {
+		return Reverb;
+	});
+}

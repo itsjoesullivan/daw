@@ -14,8 +14,12 @@ var ChannelStrip = function(conf) {
 		input = effect.output;
 	});
 	input.connect(this.output);
-	
-	
 
 	this.output.connect(conf.out);
 };
+
+if(typeof 'define' !== 'undefined') {
+	define(function() {
+		return ChannelStrip;
+	});
+}

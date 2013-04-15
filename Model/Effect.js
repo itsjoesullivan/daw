@@ -39,3 +39,10 @@ Effect.prototype.setWet = function(val) {
 	this.dry.gain.value = 1-val;
 	this.wetChannel.gain.value = val;
 };
+
+
+if(typeof 'define' !== 'undefined') {
+	define(function() {
+		return Effect;
+	});
+}
