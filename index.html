@@ -1,15 +1,42 @@
 <!doctype html>
 <html>
 <head>
+	<script src='lib/require.js'></script>
+	<script src='lib/jquery.js'></script>
+	<script src='lib/underscore.js'></script>
+	<script src='lib/underscore.template-helpers.js'></script>
+	
+
 	<script src='context.js'></script>
-	<script src='Model/Sound.js'></script>
-	<script src='Model/DrumMachine.js'></script>
-	<script src='Model/ChannelStrip.js'></script>
-	<script src='Model/Effect.js'></script>
-	<script src='Model/Effects/Reverb.js'></script>
-	<script src='Model/Effects/Delay.js'></script>
 	<script src='index.js'></script>
 </head>
 <body>
+<script>
+
+/*
+
+//define the templates I have
+var templateNames = ['ChannelStripFader','ChannelStrip'];
+var templates = {};
+
+setTimeout(function() {
+	console.log(templates['ChannelStrip']);
+},500)
+
+//load them up.
+templateNames.forEach(function(template) {
+	//first do a call for the html
+	require(['text!' + '' + template + '/' + template + '.html'],
+	function(html) {
+		var subs = /\<\!--(.*)--\>/.exec(html);
+		if(subs) {
+			html = html.replace(subs[0],templates[subs[1]]);
+		}
+		templates[template] = html;
+	});
+	//then grab the .less, compile it, etc.
+	//define(['less!' + 'Templates/' + template + '/' + template + '.less']);
+});*/
+</script>
 </body>
 </html>
