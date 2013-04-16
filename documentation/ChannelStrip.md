@@ -1,6 +1,6 @@
 #ChannelStrip
 
-ChannelStrip deals with a single signal path
+ChannelStrip deals with a single signal path, including handling effects and recording input when armed.
 
 
 ##ChannelStrip.arm
