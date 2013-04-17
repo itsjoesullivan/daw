@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+
+
+</head>
+<body>
+	
+<script>
+var context = new webkitAudioContext();
+
+var node = context.createJavaScriptNode(1024, 2, 2);
+
+var sample = {
+	buffer: {
+		l: [],
+		r: []
+	},
+	buff: false,
+	toFloat: function() {
+		var obj = {
+			l: new Float32Array(this.buffer.l.length),
+			r: new Float32Array(this.buffer.r.length)
+		};
+		var offset = 0;
+		this.buffer.l.forEach(function(p) {
+			obj.l.set([p],offset);
+			offset+=1;
+		});
+		var offset = 0;
+		this.buffer.r.forEach(function(p) {
+			obj.r.set([p],offset);
+			offset+=1;
+		});
+		return obj;
+	},
+	toSource: function() {
+		if(!this.buff) {
+			this.buff = this.toFloat();
+		}
+		var source = context.createBufferSource();
+		      source.buffer = context.createBuffer(1, this.buff.l.length, 44100);
+		      source.buffer.getChannelData(0).set(this.buff.l);
+		      source.buffer.getChannelData(0).set(this.buff.r);
+		return source;
+	},
+	play: function() {
+		var start = new Date().getTime();
+		var source = this.toSource();
+		
+		source.connect(context.destination);
+		source.noteOn(context.currentTime);
+		console.log(new Date().getTime() - start);
+	}
+};
+
+node.onaudioprocess = function(e) {
+	length += e.inputBuffer.getChannelData(0).length;
+		var left = e.inputBuffer.getChannelData(0);
+		var right = e.inputBuffer.getChannelData(1);
+		for(var i = 0; i < left.length; i++) {
+			sample.buffer.l.push(left[i]);
+			sample.buffer.r.push(right[i]);
+		}
+};
+
+setTimeout(function() {
+	node.onaudioprocess = function() {};
+},10000);
+
+var makeSound = function(buff) {
+	var source = context.createBufferSource();
+	      source.buffer = context.createBuffer(1, buff.l.length, 44100);
+	      source.buffer.getChannelData(0).set(buff.l);
+	      source.buffer.getChannelData(0).set(buff.r);
+	return source;
+}
+
+setTimeout(function() {
+	sample.play()
+},2000);
+
+
+var osc = context.createOscillator();
+osc.frequency.value = 220.0;
+osc.start( 0 );
+osc.stop(1.4);
+var osc2 = context.createOscillator();
+osc2.frequency.value = 110.0;
+osc2.start( 0 );
+osc2.stop(1.4);
+osc.connect(node);
+osc2.connect(node);
+
+
+var wire = context.createGainNode();
+
+
+
+node.connect(wire);
+wire.connect(context.destination);
+
+
+
+
+
+</script>
+
+</body>
+</html>
