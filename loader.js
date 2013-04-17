@@ -10,6 +10,8 @@ var loader = (function() {
 			"css": "/lib/css",
 			"normalize": "/lib/normalize",
 			"less": "/lib/less",
+			"Model": "/Model",
+			"Controller": "/Controller",
 			"lessc": "/lib/lessc"
 	    },
 	});
