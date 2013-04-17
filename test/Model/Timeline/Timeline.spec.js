@@ -59,6 +59,8 @@ require(['/Model/Timeline.js'], function(Timeline) {
 		
 	});
 	
+	//handleNote expects to have a Sound to work with
+	
 	mocha.run();
 	
 });
