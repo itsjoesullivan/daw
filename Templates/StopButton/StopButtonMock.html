@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<script src='/lib/require.js'></script>
+	<script src='/lib/jquery.js'></script>
+	<script src='/lib/underscore.js'></script>
+	<script src='/lib/underscore.template-helpers.js'></script>
+	
+
+	<script src='/context.js'></script>
+</head>
+<body>
+<script>
+
+require.config({
+    baseUrl: "/templates",
+    paths: {
+        "text": "/lib/text",
+		"css": "/lib/css",
+		"normalize": "/lib/normalize",
+		"less": "/lib/less",
+		"lessc": "/lib/lessc"
+    },
+});
+
+//define the templates I have
+var templateNames = ['PushButton','StopButton'];
+var templates = {};
+
+var render = function() {
+	var playButton = _.template(templates['PlayButton'])
+	var playButtonHtml = playButton();
+	$('body').append("<div class='backing'></div>");
+	$('.backing').append(playButtonHtml);
+}
+setTimeout(render,200);
+
+//load them up.
+templateNames.forEach(function(template) {
+	//first do a call for the html
+	var htmlPath = 'text!' + '' + template + '/' + template + '.html';
+	var stylePath = 'less!' + '' + template + '/' + template + '.less';
+	require([stylePath]);
+	require([htmlPath], function(html) {
+		templates[template] = html;
+		//render();
+	});
+});
+</script>
+</body>
+</html>

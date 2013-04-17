@@ -1,0 +1,22 @@
+@height: 30px;
+@width: 28px;
+
+.push-button.stop-button {
+	width:@width;
+	height:@height;
+	position:relative;
+}
+
+@side: 11px;
+@topOffset: 10px;
+@leftOffset: 9px;
+
+.stop-button .square {
+	width: @side; 
+	height: @side; 
+	top:@topOffset;
+	left: @leftOffset;
+	position:absolute;
+	border-radius:1px;
+	background-color:black;
+}
