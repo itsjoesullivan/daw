@@ -1,7 +1,7 @@
 //global for transport mock... 
 timeline = {
 	status: 'stopped',
-	play: function() {
+	run: function() {
 		this.status = 'playing';
 	},
 	stop: function() {
