@@ -6,11 +6,13 @@ var Timeline = function() {
 	this.events = [];
 	this.currentNotes = [];
 	this._position = 0;
-	
+	this.status = 'stopped';
 	//currentTime is a snapshot of _position, updated at run() and used by eventHandlers that would ideal run at the same time
 	this.currentTime = this._position;
 	this.contextCurrentTime = context.currentTime;
 	this.timer = false;
+	
+	this.secondInterval = false;
 };
 
 /** Where we are in time
@@ -41,6 +43,7 @@ Timeline.prototype.add = function(ev) {
 
 */
 Timeline.prototype.run = function() {
+	this.status = 'running';
 	this.currentTime = this.position();
 	this.contextCurrentTime = context.currentTime;
 	if(this.timer) {
@@ -53,13 +56,20 @@ Timeline.prototype.run = function() {
 		this.handleEvent(ev);
 	},this);
 	this.trigger('run');
+	this.secondInterval = setInterval(function() {
+		this.trigger('second',Math.round((this.position() + (new Date().getTime() - this.timer))/1000))
+	}.bind(this),1000);
+	this.trigger('second',Math.round((this.position() + (new Date().getTime() - this.timer))/1000))
 };
 
 /** Stop the current events
 
 */
 Timeline.prototype.stop = function() {
+	this.status = 'stopped';
+	clearInterval(this.secondInterval);
 	this.position(new Date().getTime() - this.timer);
+	
 	this.timer = false;
 	this.currentNotes.forEach(function(note) {
 		
@@ -71,6 +81,7 @@ Timeline.prototype.stop = function() {
 	});
 	this.currentNotes = [];
 	this.position(0);
+	this.trigger('second',Math.round((this.position() + (new Date().getTime() - this.timer))/1000))
 	this.trigger('stop');
 };
 
@@ -97,7 +108,8 @@ Timeline.prototype.handleEvent = function(ev) {
 	
 		{
 			sound: {sound}, //responds to play, stop
-			verb: 'start' | 'stop'
+			verb: 'start' | 'stop'.
+			channel: string, //event channels are monophonic
 			startAt: int, //alias: at; where relative to position() to start
 			[at: int, ] //alias: startAt
 			[endAt: int, ] //optional when to end playback relative to position()

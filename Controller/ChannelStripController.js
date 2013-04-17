@@ -23,6 +23,28 @@ define([
 		$(this.faderEl).append(channelStripKnobTemplate);
 		this.knobEl = $(el).find('.ChannelStripKnob');
 		
+		var self = this;
+		var isDragging = false;
+		var mouseVal = [0,0];
+		$(this.knobEl)
+		.mousedown(function(e) {
+			mouseVal = -e.clientY;
+		    $(window).mousemove(function(e) {
+				var change = -e.clientY - mouseVal;
+				mouseVal = -e.clientY;
+				self.channel.set('gain',self.channel.output.gain.value+change/80);
+		        isDragging = true;
+		    });
+		})
+		.mouseup(function() {
+		    var wasDragging = isDragging;
+		    isDragging = false;
+		    $(window).unbind("mousemove");
+		    if (!wasDragging) { //was clicking
+		        //$("#throbble").show();
+		    }
+		});
+		
 		$(".armed",this.el).click(function(el) {
 			this.channel.arm();
 		}.bind(this));
@@ -40,35 +62,12 @@ define([
 		
 		$()
 
-		self.channel.on('change:gain', function() {
-			self.moveKnob();
-		});
+		this.channel.on('change:gain', function() {
+			console.log('gain change');
+			this.moveKnob();
+		},this);
 
-		$(document).keypress(function(e) {
-			switch(e.keyCode) {
-				case 113:
-					var value = self.channel.output.gain.value;
-					//add a decibel
-					var db = Math.log(value) / Math.log(1.122);
-					db+=.5;
-					value = Math.pow(1.122,db);
-					self.channel.set('gain',value);
-					break;
-				case 122:
-					var value = self.channel.output.gain.value;
-					//remove a decibel
-					var db = Math.log(value) / Math.log(1.122);
-					db-=.5;
-					value = Math.pow(1.122,db);
-					if(value <=0 ) {
-						value = 0;
-					}
-					self.channel.set('gain',value);
-					break;	
-				default:
-					break;
-			}
-		});
+		
 	};
 
 	var center = 100;
