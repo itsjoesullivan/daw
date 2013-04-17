@@ -10,19 +10,35 @@ define([
 		_.extend(this.channel,Backbone.Events);
 		var self = this;
 		var el = conf.el;
-
+		this.el = conf.el;
+		
 		$(el).append(channelStripTemplate);
 		this.channelEl = $(el).find('.ChannelStrip');
+		
+		$(this.el).find(".label").html(this.channel.label);
 
 		$(this.channelEl).find(".ChannelStripFaderContainer").append(channelStripFaderTemplate);
 		this.faderEl = $(el).find('.ChannelStripFader');
 
 		$(this.faderEl).append(channelStripKnobTemplate);
 		this.knobEl = $(el).find('.ChannelStripKnob');
+		
+		$(".armed",this.el).click(function(el) {
+			this.channel.arm();
+		}.bind(this));
+		this.channel.on('change:armed', function(armed,channel) {
+			if(!armed) {
+				$(".armed",this.el).removeClass("active");
+			} else {
+				$(".armed",this.el).addClass("active");
+			}
+		}.bind(this));
 
 		setTimeout(function() {
 			self.moveKnob();
 		},100,self);
+		
+		$()
 
 		self.channel.on('change:gain', function() {
 			self.moveKnob();

@@ -1,9 +1,16 @@
+define(['underscore','backbone','/Model/Recording.js'], function(_,Backbone,Recording) {
+
 /** Your basic channel strip
 
 */
 var ChannelStrip = function(conf) {
+	_.extend(this,Backbone.Events);
 	this.input = context.createGain();
 	this.output = context.createGain();
+	this.timeline = conf.timeline;
+	this.armed = false;
+	
+	this.label = conf.label || '';
 	
 	this.effects = conf.effects || [];
 	
@@ -24,38 +31,52 @@ ChannelStrip.prototype.set = function(k,v) {
 			this.output.gain.value = v;
 			break;
 		default:
+			this[k] = v;
 			break;
 	}
-	this.trigger('change:' + k);
+	this.trigger('change:' + k,v,this);
 };
 
 ChannelStrip.prototype.arm = function() {
-	this.armed = true;
-	if(!('recording' in this)) {
-		this.recording = new Recording({
-			input: this.output
-		});
+	
+	var soundEvent = {
+		type: 'note',
+		at: this.timeline.position(),
+		output: this.output
 	}
-	window.timeline.once('run', function() {
-		var soundEvent = {
-			type: 'note',
-			at: timeline.position(),
-			output: this.output
+	
+	var onStop = function() {
+		console.log('stopping recording');
+		this.recording.recording = false;
+		var sound = this.recording.toSound();
+		soundEvent.sound = sound;
+		this.timeline.add(soundEvent);
+		
+		this.set('armed',false);
+	};
+	var onRun = function() {
+		console.log('starting recording');
+		if(!('recording' in this)) {
+			this.recording = new Recording({
+				input: this.output
+			});
 		}
 		this.recording.recording = true;
-		window.timeline.once('stop', function() {
-			this.recording.recording = false;
-			var sound = this.recording.toSound();
-			soundEvent.sound = sound;
-			timeline.add(soundEvent);
-			
-			this.armed = false;
-		},this)
-	},this);
+		this.timeline.once('stop', onStop, this);
+	}
+	
+	if(!this.armed) { //wasnt before
+		this.timeline.once('run', onRun, this);
+	} else { //take off any listener
+		this.timeline.off('run',onRun,this);
+		this.timeline.off('stop',onStop,this);
+	}
+	this.trigger('arm',this);
+	return this.set('armed',!this.armed);
+	
+	
 };
 
-if(typeof 'define' !== 'undefined') {
-	define(function() {
+	
 		return ChannelStrip;
 	});
-}

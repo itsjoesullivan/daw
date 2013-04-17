@@ -8,6 +8,7 @@ define([
 	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate) {
 	var TransportController = function(conf) {
 		this.el = conf.el;
+		this.timeline = conf.timeline;
 	
 		$(this.el).append(transportTemplate);
 
@@ -20,14 +21,14 @@ define([
 		this.playButton = $(this.el).find('.play-button');
 		
 		$(this.playButton).click(function() {	
-			//timeline.run();
-		});
+			this.timeline.run();
+		}.bind(this));
 		
 		this.stopButton = $(this.el).find('.stop-button');
 		
 		$(this.stopButton).click(function() {	
-			//timeline.stop();
-		});
+			this.timeline.stop();
+		}.bind(this));
 
 	};
 

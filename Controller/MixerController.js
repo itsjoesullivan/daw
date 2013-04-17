@@ -6,17 +6,21 @@ define([
 		
 		this.el = conf.el;
 		this.channels = [];
+		this.timeline = conf.timeline;
 		this.master = new ChannelStrip({
 			out: context.destination
 		});
+		this.userInput = conf.userInput;
 
 		//create channels
-		var ct = 4;
-		while(ct--) {
+		for(var i = 1; i <=4 ; i++ ) {
 			this.channels.push(new ChannelStrip({
-				out: this.master.input
+				out: this.master.input,
+				label: '' + i,
+				timeline: this.timeline
 			}));
 		}
+	
 
 		//create controllers for channels + render
 		$(this.el).append("<div class='channel-strips'></div>");
@@ -25,6 +29,13 @@ define([
 
 		this.channelControllers = [];
 		this.channels.forEach(function(channel) {
+			channel.on('change:armed', function(armed,channel) {
+				if(armed) {
+					this.userInput.source.connect(channel.input);
+				} else {
+					this.userInput.source.disconnect(0);
+				}
+			},this);
 			$(this.channelStripsEl).append("<div class='channel-strip'></div>");
 			var el = $(this.channelStripsEl).find('.channel-strip').last();
 			var controller = new ChannelStripController({
