@@ -1,58 +1,36 @@
-var TransportController = function(done) {
+define([
+	'underscore',
+	'/templates/Transport/Transport.js',
+	'/templates/PushButton/PushButton.js',
+	'/templates/PlayButton/PlayButton.js',
+	'/templates/RecordButton/RecordButton.js',
+	'/templates/StopButton/StopButton.js',
+	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate) {
+	var TransportController = function(conf) {
+		this.el = conf.el;
 	
-	var self = this;
-	
+		$(this.el).append(transportTemplate);
 
-	var render = function() {
-		var transport = _.template(templates['Transport']);
-		var playButton = _.template(templates['PlayButton'])
-		var playButtonHtml = playButton();
-		var stopButton = _.template(templates['StopButton'])
-		var stopButtonHtml = stopButton();
-		var pushButton = _.template(templates['PushButton'])
-		var pushButtonHtml = pushButton();
-		var transportHtml = transport();
-		var recordButton = _.template(templates['RecordButton'])
-		var recordButtonHtml = recordButton();
-
-		$('#TransportContainer').append(transportHtml);
-		self.transportEl = $("#TransportContainer .Transport");
 		
+		$(this.el).append(recordButtonTemplate);
+		$(this.el).append(playButtonTemplate);
+		$(this.el).append(stopButtonTemplate);
+		$(this.el).append(pushButtonTemplate);
 		
-		$(self.transportEl).append(recordButtonHtml);
-		$(self.transportEl).append(playButtonHtml);
-		$(self.transportEl).append(stopButtonHtml);
-		$(self.transportEl).append(pushButtonHtml);
+		this.playButton = $(this.el).find('.play-button');
 		
-		self.playButton = $(self.transportEl).find('.PlayButton');
-		
-		$(self.playButton).click(function() {	
-			timeline.play();
+		$(this.playButton).click(function() {	
+			//timeline.run();
 		});
 		
-		self.stopButton = $(self.transportEl).find('.StopButton');
+		this.stopButton = $(this.el).find('.stop-button');
 		
-		$(self.stopButton).click(function() {	
-			timeline.stop();
+		$(this.stopButton).click(function() {	
+			//timeline.stop();
 		});
-		
-	}
-	
-	
-	//setTimeout(function() {
-		render();
-		if(typeof done === 'function') {
-			done(self);
-		}
-	//},200);
 
+	};
 
-	
-};
+	return TransportController;
 
-
-if(typeof 'define' !== 'undefined') {
-	define(function() {
-		return TransportController;
-	});
-}
+});
