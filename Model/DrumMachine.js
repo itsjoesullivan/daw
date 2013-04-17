@@ -9,9 +9,9 @@ var DrumMachine = function(conf) {
 	var self = this;
 	var key;
 	for(key in sounds) {
-		self.soundMap[key] = new Sound({
+		this.soundMap[key] = new Sound({
 			path: sounds[key],
-			out: self.output
+			out: this.output
 		});
 	}
 	document.addEventListener('keydown', function(e) {

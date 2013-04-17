@@ -1,5 +1,4 @@
 var concatBuffers = function(buffer1,buffer2) {
-	console.log(buffer1.length);
 	var newBuffer = context.createBuffer( 2, (buffer1.length + buffer2.length), buffer1.sampleRate );
 	for (var i=0; i<2; i++) {
 	      var channel = newBuffer.getChannelData(i);
@@ -16,40 +15,32 @@ var Recording = function(conf) {
 	this.node = context.createJavaScriptNode(conf.bufferSize || 1024, 2, 2);
 	this.node.connect(context.destination);
 	this.recording = false;
-	this.buffers = {
-		left: [],
-		right: []
-	};
-	//this.audioBuffer = false;
-	var self = this;
+	this.input.connect(this.node);
 	this.node.onaudioprocess = function(e) {
-		
-		if(self.recording) {
-			if(!('audioBuffer' in self)) {
-				console.log('setting as');
-				self.audioBuffer = e.inputBuffer;
+		if(this.recording) {
+			if(!('audioBuffer' in this)) {
+				this.audioBuffer = e.inputBuffer;
 			} else {
-				self.audioBuffer = concatBuffers(self.audioBuffer,e.inputBuffer);
+				this.audioBuffer = concatBuffers(this.audioBuffer,e.inputBuffer);
 			}
-			console.log(self.audioBuffer);
 		}
-	};
+	}.bind(this);
 };
-Recording.prototype.toSource = function() {
-	//var buffer = this.toFloat();
-	//console.log(buffer);
+
+/** Not necessary
+*/
+Recording.prototype.generateSource = function() {
 	var source = context.createBufferSource();
-		console.log(this.audioBuffer);
 	source.buffer = this.audioBuffer;
 	return source;
 };
 
-Recording.prototype.play = function() {
-	var source = this.toSource();
-	source.connect(context.destination);
-	source.noteOn(0);
-}
-
+/** Convert the recording to a read-only sound
+*/
+Recording.prototype.toSound = function(args) {
+	var sound = new Sound({buffer: this.audioBuffer});
+	return sound;
+};
 
 if(typeof define !== 'undefined') {
 	define(function() {

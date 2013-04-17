@@ -2,9 +2,15 @@
 
 */
 var Timeline = function() {
+	_.extend(this,Backbone.Events);
 	this.events = [];
 	this.currentNotes = [];
 	this._position = 0;
+	
+	//currentTime is a snapshot of _position, updated at run() and used by eventHandlers that would ideal run at the same time
+	this.currentTime = this._position;
+	this.contextCurrentTime = context.currentTime;
+	this.timer = false;
 };
 
 /** Where we are in time
@@ -15,7 +21,7 @@ Timeline.prototype.position = function(pos) {
 	} else {
 		return this._position;
 	}
-}
+};
 
 /**
 
@@ -35,16 +41,28 @@ Timeline.prototype.add = function(ev) {
 
 */
 Timeline.prototype.run = function() {
+	this.currentTime = this.position();
+	this.contextCurrentTime = context.currentTime;
+	if(this.timer) {
+		this.currentTime = this.position() + this.timer;
+		this.position(this.currentTime);
+	} else {
+		this.timer = new Date().getTime();
+	}
 	this.events.forEach(function(ev) {
 		this.handleEvent(ev);
 	},this);
+	this.trigger('run');
 };
 
 /** Stop the current events
 
 */
 Timeline.prototype.stop = function() {
+	this.position(new Date().getTime() - this.timer);
+	this.timer = false;
 	this.currentNotes.forEach(function(note) {
+		
 		if(note.when > context.currentTime) { //the sound is scheduled to play, but isn't yet.
 			note.source.noteOff(note.when);
 		} else { //the sound is currently playing, or has already played
@@ -52,12 +70,15 @@ Timeline.prototype.stop = function() {
 		}
 	});
 	this.currentNotes = [];
+	this.position(0);
+	this.trigger('stop');
 };
 
 /** Deal with a specific event, generally passing off to helper methods
 
 */
 Timeline.prototype.handleEvent = function(ev) {
+	console.log('handling event: ',ev);3
 	switch(ev.type) {
 		case 'note':
 			this.handleNote(ev);
@@ -89,9 +110,13 @@ Timeline.prototype.handleNote = function(ev) {
 	//if this note is either currently playing or soon to be playing
 	
 	//play the note, either from the beginning or the place where it should be
-	var when = context.currentTime + ev.at/1000 - this.position();
+	var when = this.contextCurrentTime + ev.at/1000 - this.currentTime;
 	if(ev.at >= this.position()) {
+		//if(!('source' in ev)) {
 		ev.source = ev.sound.generateSource();
+		//}
+		ev.source.connect(ev.output);
+		console.log(ev.output);
 		ev.source.noteOn(when);
 		this.currentNotes.push({
 			ev: ev,
@@ -101,8 +126,10 @@ Timeline.prototype.handleNote = function(ev) {
 	}
 };
 
+
+
 if(typeof 'define' !== 'undefined') {
-	define(function() {
+	define(['underscore','backbone'],function(_,Backbone) {
 		return Timeline;
 	});
 }

@@ -8,7 +8,7 @@ var Reverb = function(conf) {
 	Effect.call(this,conf);
 	var self = this;
 	new Sound({
-		path: 'samples/feedback-spring.wav'
+		path: '/samples/dining-living-true-stereo.wav'
 	}, function(sound) {
 		self.effect.buffer = sound.buffer
 	});
