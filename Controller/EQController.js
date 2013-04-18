@@ -11,9 +11,18 @@ define([
 			
 			$(this.el).append(eqTemplate);
 			
+			var ranges = [];
 			
 			var knobController = new KnobController({
-				el: $(".knob",this.el)
+				el: $(".high .knob",this.el)
+			});
+			
+			var knobController = new KnobController({
+				el: $(".med .knob",this.el)
+			});
+			
+			var knobController = new KnobController({
+				el: $(".low .knob",this.el)
 			});
 		}
 		

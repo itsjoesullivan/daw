@@ -45,15 +45,15 @@ define([
 				if(this.timeline.status === 'running') {
 					$('.time .digit.one').animate({
 						top:'-=24'
-					}, 100, 'swing');
+					}, 1000, 'linear');
 					if(vals.one === 9) {
 						$('.time .digit.ten').animate({
 							top:'-=24'
-						}, 100, 'swing');
+						}, 1000, 'linear');
 						if(vals.ten === 9) {
 							$('.time .digit.hundred').animate({
 								top:'-=24'
-							}, 100, 'swing');
+							}, 1000, 'linear');
 						}
 					}
 				}

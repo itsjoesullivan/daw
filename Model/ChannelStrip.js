@@ -24,10 +24,10 @@ var ChannelStrip = function(conf) {
 	});
 	
 	this.panner = context.createPanner();
-	input.connect(this.panner);
-	this.panner.connect(this.output);
+	input.connect(this.output);
+	//this.panner.connect(this.output);
 	
-	this.panner.setPosition(-2,0,0);
+	//this.panner.setPosition(0,0,0);
 
 	this.output.connect(conf.out);
 	

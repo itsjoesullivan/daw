@@ -13,9 +13,10 @@ define([
 			this.knobEl = $(".knob",this.el);
 			
 			var knobDeg = 46;
-
+var isDragging = false;
 			$(this.knobEl)
 			.mousedown(function(e) {
+				
 				mouseVal = -e.clientY + e.clientX;
 			    $(window).mousemove(function(e) {
 					var change = -e.clientY + e.clientX - mouseVal;

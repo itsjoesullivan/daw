@@ -9,9 +9,10 @@ define(['underscore','backbone'],function(_,Backbone) {
 				//self.source = context.createMediaStreamSource(stream);
 				self.raw = context.createMediaStreamSource(stream);
 				var splitter = context.createChannelSplitter();
-				self.raw.connect(splitter);
+				
 				self.source = context.createGainNode();
-				splitter.connect(self.source);
+				self.raw.connect(splitter);
+				splitter.connect(self.source,0,0);
 				//window.raw = self.raw;
 				//se
 				self.trigger('live');

@@ -14,7 +14,7 @@ define(['/Model/Sound.js'],function(Sound) {
 		this.channel = conf.channel || false;
 		this.position = 0;
 		this.input = conf.input;
-		this.node = context.createJavaScriptNode(conf.bufferSize || 1024, 2, 2);
+		this.node = context.createJavaScriptNode(conf.bufferSize || 16384, 2, 2);
 		this.node.connect(context.destination);
 		this.recording = false;
 		this.input.connect(this.node);
@@ -22,11 +22,12 @@ define(['/Model/Sound.js'],function(Sound) {
 			if(this.recording) {
 				if(!('audioBuffer' in this)) {
 					this.audioBuffer = e.inputBuffer;
-				} else {
-					this.audioBuffer = concatBuffers(this.audioBuffer,e.inputBuffer);
 				}
+				//immediately switch to speed up this fn
+				this.node.onaudioprocess = handleAudioProcess.bind(this);
 			}
 		}.bind(this);
+			
 	};
 
 	/** Not necessary
@@ -45,6 +46,15 @@ define(['/Model/Sound.js'],function(Sound) {
 	};
 
 
+function handleAudioProcess(e) {
+	if(this.recording) {
+		if(!('audioBuffer' in this)) {
+			this.audioBuffer = e.inputBuffer;
+		} else {
+			this.audioBuffer = concatBuffers(this.audioBuffer,e.inputBuffer);
+		}
+	}
+};
 	
 return Recording;
 	
