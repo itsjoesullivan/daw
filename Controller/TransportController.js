@@ -7,13 +7,14 @@ define([
 	'/templates/StopButton/StopButton.js',
 	'/templates/FFButton/FFButton.js',
 	'/templates/RWButton/RWButton.js',
-	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate,ffButtonTemplate,rwButtonTemplate) {
+	'/templates/ToBeginningButton/ToBeginningButton.js'
+	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate,ffButtonTemplate,rwButtonTemplate,beginningButtonTemplate) {
 	var TransportController = function(conf) {
 		this.el = conf.el;
 		this.timeline = conf.timeline;
 	
 		$(this.el).append(transportTemplate);		
-		$(this.el).append(rwButtonTemplate);
+		$(this.el).append(beginningButtonTemplate);
 		$(this.el).append(rwButtonTemplate);
 		$(this.el).append(ffButtonTemplate);
 		$(this.el).append(ffButtonTemplate);
@@ -33,6 +34,43 @@ define([
 		
 		$(this.stopButton).click(function() {	
 			this.timeline.stop();
+		}.bind(this));
+		
+		this.ffButton = $(this.el).find('.ff-button');
+		$(this.ffButton).click(function() {	
+			var running = this.timeline.status === 'running';
+			if(running) {
+				this.timeline.stop();
+			}
+			this.timeline.position(this.timeline.position() + 2);
+			if(running) {
+				this.timeline.run();
+			}
+		}.bind(this));
+		
+		this.rwButton = $(this.el).find('.rw-button');
+		$(this.rwButton).click(function() {	
+			var running = this.timeline.status === 'running';
+			if(running) {
+				this.timeline.stop();
+			}
+			this.timeline.position(this.timeline.position() - 2);
+			if(running) {
+				this.timeline.run();
+			}
+		}.bind(this));
+		
+		this.toBeginningButton = $(this.el).find('.beginning-button');
+		$(this.toBeginningButton).click(function() {	
+			console.log('click');
+			var running = this.timeline.status === 'running';
+			if(running) {
+				this.timeline.stop();
+			}
+			this.timeline.position(0);
+			if(running) {
+				this.timeline.run();
+			}
 		}.bind(this));
 
 	};
