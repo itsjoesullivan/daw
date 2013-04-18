@@ -61,11 +61,12 @@ require(['/Model/Timeline.js'], function(Timeline) {
 			});
 
 			var elog = [];
-			log = function(eventName,name,time) {
+			log = function(eventName,name,time,duration) {
 				elog.push({
 					eventName: eventName,
 					name: name,
-					time: time
+					time: time,
+					duration:duration
 				});
 				elog = elog.sort(function(a,b) { if(a.time === b.time) { return b.eventName === 'noteOff' } return a.time - b.time})
 			}
@@ -101,7 +102,7 @@ require(['/Model/Timeline.js'], function(Timeline) {
 				});
 				var startTime = context.currentTime;
 				timeline.run();
-				
+				var startTime = context.currentTime;
 				expectWithinASample(elog[0].time - startTime,.05);
 			});
 			
@@ -168,7 +169,7 @@ require(['/Model/Timeline.js'], function(Timeline) {
 				expect(elog[2].name).to.equal('s2');				
 			});
 			
-			it('doesn\'t play two sounds at once from the same channel', function() {
+			it('in media res', function() {
 				var timeline = new Timeline();
 				var sound = new Sound('s1',log,15);
 				timeline.add({
@@ -177,19 +178,14 @@ require(['/Model/Timeline.js'], function(Timeline) {
 					sound: sound,
 					channel: 1
 				});
-				var sound2 = new Sound('s2',log,10);
-				timeline.add({
-					type: 'note',
-					at: 20,
-					sound: sound2,
-					channel: 1
-				});
+				timeline.position(15);
 				var startTime = context.currentTime;
 				timeline.run();
-				expect(elog[1].eventName).to.equal('noteOff');
-				expect(elog[1].name).to.equal('s1');
-				expect(elog[2].eventName).to.equal('noteOn');
-				expect(elog[2].name).to.equal('s2');				
+				expect(elog.length).to.equal(1);		
+				console.log(startTime,elog[0]);
+				expectWithinASample(startTime,elog[0].time);
+				expect(elog[0].duration).to.equal(5);
+				console.log(elog);
 			});
 		});
 

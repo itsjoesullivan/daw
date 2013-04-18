@@ -2,8 +2,8 @@
 /** Just a sound. Gives us "play", primarily.
 */
 var Sound = function(conf,fn) {
-	console.log(conf);
 	if(!('buffer' in conf)) {
+		this.loading = true;
 		this.load(conf.path);
 	} else {
 		this.buffer = conf.buffer
@@ -18,6 +18,9 @@ var Sound = function(conf,fn) {
 
 */
 Sound.prototype.generateSource = function() {
+	if(this.loading) {
+		throw "Still loading file.";
+	}
 	var source = context.createBufferSource();
 	source.buffer = this.buffer;
 	return source;
@@ -63,14 +66,14 @@ Sound.prototype.load = function(path,fn) {
 	req.open("GET",path,true);
 	req.responseType = "arraybuffer";
 	req.onload = function() {
-		console.log(req.response);
 		context.decodeAudioData(req.response, function(buffer) {
 			self.buffer = buffer;
-			if(self.ready) {
-				self.ready(self);
+			this.loading = false;
+			if(this.ready) {
+				this.ready(self);
 			}
-		});
-	};
+		}.bind(this));
+	}.bind(this);
 	req.send();
 }
 

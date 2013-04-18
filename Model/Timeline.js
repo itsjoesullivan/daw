@@ -93,9 +93,9 @@ Timeline.prototype.stop = function() {
 	this.currentNotes.forEach(function(note) {
 		
 		if(note.when > context.currentTime) { //the sound is scheduled to play, but isn't yet.
-			note.source.noteOff(note.when);
+			note.source.stop(note.when);
 		} else { //the sound is currently playing, or has already played
-			note.source.noteOff(context.currentTime);
+			note.source.stop(context.currentTime);
 		}
 	});
 	this.currentNotes = [];
@@ -143,13 +143,10 @@ Timeline.prototype.handleNote = function(ev) {
 	//if this note is either currently playing or soon to be playing
 	
 	//play the note, either from the beginning or the place where it should be
-
 	
-	
-	if(ev.at >= this.position()) {
+	//if(/*ev.at >= this.position()*/) {
 		//when is a when for context, so needs to be absolute(context time) and in seconds. take absolute time, add "at", and subtract our progress
 		var when = this.contextTimer + ev.at/1000 - this.position();
-		console.log("handling note: ", ev);
 		//check that channel is clear
 		if('channel' in ev) {
 			ev.channel = '' + ev.channel;
@@ -158,31 +155,18 @@ Timeline.prototype.handleNote = function(ev) {
 				this.eventChannels[ev.channel] = new EventChannel();
 			}
 			var clearDurations = this.eventChannels[ev.channel].getClearDurations(ev.at,ev.at + ev.sound.buffer.duration)
-			console.log("broken into: ",clearDurations.length);
 			if(!clearDurations.length) {
+				console.log("no clear durations");
 				return;
 			}
 			clearDurations.forEach(function(duration) {
-				ev.source = ev.sound.generateSource();
-				ev.source.connect(ev.output);
-				var when = this.contextTimer + duration.start - this.position();
-				console.log("when is: ",when);
-				ev.source.noteOn(when,duration.start - ev.at);
-				if(when + ev.sound.buffer.duration > duration.end) { //if the note will still be playing when the duration ends, kill it then
-					ev.source.noteOff(this.contextTimer + duration.end - this.position(),duration.end - ev.at);
-				}
-				this.currentNotes.push({
-					ev: ev,
-					source: ev.source,
-					when: when
-				});
-				this.eventChannels[ev.channel].push(duration);
+				console.log(duration);
+				this.scheduleDuration(ev,duration);
 			},this);
-			
 		} else {
 			ev.source = ev.sound.generateSource();
 			ev.source.connect(ev.output);
-			ev.source.noteOn(when);
+			ev.source.start(when);
 			this.currentNotes.push({
 				ev: ev,
 				source: ev.source,
@@ -190,8 +174,42 @@ Timeline.prototype.handleNote = function(ev) {
 			});
 		}
 		
-	}
+	//} else if(true) {
+		
+	//	console.log(ev);
+	//}
 };
+
+/**
+
+@duration: object like {start: start, end: end} where start and end are in transport-time
+
+*/
+
+Timeline.prototype.scheduleDuration = function(ev,duration) {
+	ev.source = ev.sound.generateSource();
+	ev.source.connect(ev.output);
+	var when = this.contextTimer + duration.start - this.position();
+	console.log("diff:",duration.start,this.position())
+	var immediateOffset = 0;
+	if(duration.start < this.position()) {
+		console.log('need fix');
+		immediateOffset = this.position() - duration.start;
+		console.log('offset is:',immediateOffset);
+	}
+	console.log('decided offset is:',duration.start - ev.at + immediateOffset);
+	ev.source.start(when + immediateOffset,duration.start - ev.at + immediateOffset);
+	if(when + ev.sound.buffer.duration > duration.end) { //if the note will still be playing when the duration ends, kill it then
+		ev.source.stop(this.contextTimer + duration.end - this.position(),duration.end - ev.at);
+	}
+	this.currentNotes.push({
+		ev: ev,
+		source: ev.source,
+		when: when
+	});
+	this.eventChannels[ev.channel].push(duration);
+};
+
 
 		return Timeline;
 });
