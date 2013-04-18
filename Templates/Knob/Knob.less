@@ -1,0 +1,141 @@
+@grey: #666;
+
+.knob {
+	position:relative;
+	width:30px;
+	height:30px;
+	-webkit-transform:rotate(44deg); /* Safari and Chrome */
+}
+
+.knob .circle {
+	background-color:@grey;
+	width:30px;
+	height:30px;
+	top:0px;
+	left:-1px;
+	border-radius:30px;
+	z-index:1;
+	position:relative;
+	box-shadow: 0px 0px 0px .5px @grey;
+	
+}
+.knob .inner-circle {
+	background-color:#fff;
+	width:26px;
+	height:26px;
+	border-radius:30px;
+	z-index:1;
+	position:absolute;
+	top:.5px;
+	left:.5px;
+	border: 1px solid white;
+}
+
+
+.knob .notch {
+	
+	background-color:@grey;
+	position:absolute;
+	z-index:1;
+	width:3px;
+	top:3.4px;
+	left:6.6px;
+	height:9px;
+	-webkit-transform:rotate(-44deg); /* Safari and Chrome */
+	
+}
+
+
+
+
+@rotate-degrees: 36deg;
+
+
+.knob .point {
+	position:absolute;
+	width:30px;
+	height:30px;
+	top:0px;
+}
+
+
+
+.knob .point .dent {
+box-shadow: 0px 0px 3px @grey;
+	   width: 8px;
+	   height: 10px;
+		top:0px;
+		left:1px;
+	position:absolute;
+	   background: @grey; 
+	   border-radius: 10px;
+	-webkit-transform:rotate(46deg); /* Safari and Chrome */
+}
+
+.knob .point.ii {
+	-webkit-transform:rotate(@rotate-degrees); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.iii {
+	-webkit-transform:rotate((2*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.iv {
+	-webkit-transform:rotate((3*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.v {
+	-webkit-transform:rotate((4*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.vi {
+	-webkit-transform:rotate((5*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.vii {
+	-webkit-transform:rotate((6*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.viii {
+	-webkit-transform:rotate((7*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.ix {
+	-webkit-transform:rotate((8*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+.knob .point.x {
+	-webkit-transform:rotate((9*@rotate-degrees)); /* Safari and Chrome */
+	z-index:0;
+}
+
+/* colors */
+
+
+.knob.green .inner-circle {
+	background: #496652; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #496652 0%, #3e7f55 100%); /* FF3.6+ */
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#496652), color-stop(100%,#3e7f55)); /* Chrome,Safari4+ */
+	background: -webkit-radial-gradient(center, ellipse cover, #496652 0%,#3e7f55 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-radial-gradient(center, ellipse cover, #496652 0%,#3e7f55 100%); /* Opera 12+ */
+	background: -ms-radial-gradient(center, ellipse cover, #496652 0%,#3e7f55 100%); /* IE10+ */
+	background: radial-gradient(ellipse at center, #496652 0%,#3e7f55 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#496652', endColorstr='#3e7f55',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.knob.green .notch {
+	background-color: #eee;
+}
+
+.knob.green .inner-circle {
+	border-color:#448C5D;
+}

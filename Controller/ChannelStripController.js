@@ -3,7 +3,9 @@ define([
 	'/templates/ChannelStrip/ChannelStrip.js',
 	'/templates/ChannelStripFader/ChannelStripFader.js',
 	'/templates/ChannelStripKnob/ChannelStripKnob.js',
-	'/templates/ChannelStripPan/ChannelStripPan.js'],function(Backbone,channelStripTemplate,channelStripFaderTemplate,channelStripKnobTemplate,channelStripPanTemplate) {
+	'/templates/ChannelStripPan/ChannelStripPan.js',
+	'/Controller/KnobController.js',
+	'/Controller/EQController.js'],function(Backbone,channelStripTemplate,channelStripFaderTemplate,channelStripKnobTemplate,channelStripPanTemplate,KnobController,EQController) {
 
 	/** Handles channel strip. Expects to be passed a channel and an el */
 	var ChannelStripController = function(conf) {
@@ -13,8 +15,17 @@ define([
 		var el = conf.el;
 		this.el = conf.el;
 		
+		
+		
+		
 		$(el).append(channelStripTemplate);
 		this.channelEl = $(el).find('.ChannelStrip');
+		
+
+		
+		var eqController = new EQController({
+			el: $('.eq-section',this.el)
+		});
 		
 		$(this.el).find(".channel-label").html(this.channel.label);
 		
