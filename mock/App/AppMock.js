@@ -3,7 +3,7 @@ require([
 		'/Controller/AppController.js'
 	], function($,AppController) {
 		
-		var appController = new AppController({
+		window.appController = new AppController({
 			el: $(".app")
 		});
 		

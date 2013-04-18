@@ -1,3 +1,6 @@
+define(['underscore','backbone','/Model/EventChannel.js'],function(_,Backbone, EventChannel) {
+	
+
 /** Timeline upon which events can be scheduled, executed, paused, etc. 
 
 */
@@ -9,18 +12,28 @@ var Timeline = function() {
 	this.status = 'stopped';
 	//currentTime is a snapshot of _position, updated at run() and used by eventHandlers that would ideal run at the same time
 	this.currentTime = this._position;
-	this.contextCurrentTime = context.currentTime;
+	this.contextTimer = context.currentTime;
 	this.timer = false;
-	
 	this.secondInterval = false;
+	this.inFirstTick = false;
+	this.eventChannels = {};
 };
 
 /** Where we are in time
+When stopped, we're not going anywhere. So when stopped, jut return position
+When running, we are going somewhere, so calculate the difference in context.currentTime from when we started to this fxn call
+
 */
 Timeline.prototype.position = function(pos) {
 	if(pos || typeof pos === 'number') {
 		this._position = pos;
+		this.trigger('second',Math.round(this.position()));
 	} else {
+		if(!this.inFirstTick && this.status === 'running') {
+			var extra = 
+			this._position += (context.currentTime - this.contextTimer);
+			this.contextTimer = context.currentTime;
+		}
 		return this._position;
 	}
 };
@@ -36,39 +49,45 @@ Example:
 
 */
 Timeline.prototype.add = function(ev) {
-	this.events.push(ev);
+	this.events.unshift(ev);
 };
 
 /** Start the timeline
 
 */
 Timeline.prototype.run = function() {
+	this.inFirstTick = true;
 	this.status = 'running';
-	this.currentTime = this.position();
-	this.contextCurrentTime = context.currentTime;
-	if(this.timer) {
-		this.currentTime = this.position() + this.timer;
-		this.position(this.currentTime);
-	} else {
-		this.timer = new Date().getTime();
-	}
+	this.contextTimer = context.currentTime;
 	this.events.forEach(function(ev) {
 		this.handleEvent(ev);
 	},this);
 	this.trigger('run');
+	
+	//second interval stuff
 	this.secondInterval = setInterval(function() {
-		this.trigger('second',Math.round((this.position() + (new Date().getTime() - this.timer))/1000))
+		this.trigger('second',Math.round(this.position()));
 	}.bind(this),1000);
-	this.trigger('second',Math.round((this.position() + (new Date().getTime() - this.timer))/1000))
+	this.trigger('second',Math.round(this.position()));
+	
+	//and we're done
+	this.inFirstTick = false;
 };
 
 /** Stop the current events
 
 */
 Timeline.prototype.stop = function() {
+	
+	if(this.status === 'stopped') {
+		this.position(0);
+		return;
+	}
+	
+	this.position();
+	
 	this.status = 'stopped';
 	clearInterval(this.secondInterval);
-	this.position(new Date().getTime() - this.timer);
 	
 	this.timer = false;
 	this.currentNotes.forEach(function(note) {
@@ -80,8 +99,11 @@ Timeline.prototype.stop = function() {
 		}
 	});
 	this.currentNotes = [];
-	this.position(0);
-	this.trigger('second',Math.round((this.position() + (new Date().getTime() - this.timer))/1000))
+	//this.position(0);
+	this.trigger('second',Math.round((this.position())));
+	_(this.eventChannels).each(function(eventChannel) {
+		eventChannel.empty();
+	})
 	this.trigger('stop');
 };
 
@@ -89,7 +111,6 @@ Timeline.prototype.stop = function() {
 
 */
 Timeline.prototype.handleEvent = function(ev) {
-	console.log('handling event: ',ev);3
 	switch(ev.type) {
 		case 'note':
 			this.handleNote(ev);
@@ -122,26 +143,55 @@ Timeline.prototype.handleNote = function(ev) {
 	//if this note is either currently playing or soon to be playing
 	
 	//play the note, either from the beginning or the place where it should be
-	var when = this.contextCurrentTime + ev.at/1000 - this.currentTime;
+
+	
+	
 	if(ev.at >= this.position()) {
-		//if(!('source' in ev)) {
-		ev.source = ev.sound.generateSource();
-		//}
-		ev.source.connect(ev.output);
-		console.log(ev.output);
-		ev.source.noteOn(when);
-		this.currentNotes.push({
-			ev: ev,
-			source: ev.source,
-			when: when
-		});
+		//when is a when for context, so needs to be absolute(context time) and in seconds. take absolute time, add "at", and subtract our progress
+		var when = this.contextTimer + ev.at/1000 - this.position();
+		console.log("handling note: ", ev);
+		//check that channel is clear
+		if('channel' in ev) {
+			ev.channel = '' + ev.channel;
+			//fill it in
+			if(!(ev.channel in this.eventChannels)) {
+				this.eventChannels[ev.channel] = new EventChannel();
+			}
+			var clearDurations = this.eventChannels[ev.channel].getClearDurations(ev.at,ev.at + ev.sound.buffer.duration)
+			console.log("broken into: ",clearDurations.length);
+			if(!clearDurations.length) {
+				return;
+			}
+			clearDurations.forEach(function(duration) {
+				ev.source = ev.sound.generateSource();
+				ev.source.connect(ev.output);
+				var when = this.contextTimer + duration.start - this.position();
+				console.log("when is: ",when);
+				ev.source.noteOn(when,duration.start - ev.at);
+				if(when + ev.sound.buffer.duration > duration.end) { //if the note will still be playing when the duration ends, kill it then
+					ev.source.noteOff(this.contextTimer + duration.end - this.position(),duration.end - ev.at);
+				}
+				this.currentNotes.push({
+					ev: ev,
+					source: ev.source,
+					when: when
+				});
+				this.eventChannels[ev.channel].push(duration);
+			},this);
+			
+		} else {
+			ev.source = ev.sound.generateSource();
+			ev.source.connect(ev.output);
+			ev.source.noteOn(when);
+			this.currentNotes.push({
+				ev: ev,
+				source: ev.source,
+				when: when
+			});
+		}
+		
 	}
 };
 
-
-
-if(typeof 'define' !== 'undefined') {
-	define(['underscore','backbone'],function(_,Backbone) {
 		return Timeline;
-	});
-}
+});

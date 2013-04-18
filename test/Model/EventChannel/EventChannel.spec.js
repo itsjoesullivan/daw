@@ -35,11 +35,94 @@ require(['/Model/EventChannel.js'], function(EventChannel) {
 				});
 			});
 			
-			
 			describe('getClearDurations(start,end)', function() {
-				it('returns an array of durations that are free in that channel between the interval of the start and end argument', function() {
-					
+				it('returns {start:start,end:end} when the events array is empty', function() {
+					eventChannel = new EventChannel();
+					var clearDurations = eventChannel.getClearDurations(0,1);
+					expect(clearDurations[0].start).to.equal(0);
+					expect(clearDurations[0].end).to.equal(1);
 				})
+				it('returns an empty array when no room', function() {
+					eventChannel = new EventChannel();
+					eventChannel.push({
+						start: 0,
+						end: 100
+					});
+					var clearDurations = eventChannel.getClearDurations(0,1);
+					expect(clearDurations.length).to.equal(0);
+				});
+				
+				it('returns a shortened array when only the first bit fits', function() {
+					eventChannel = new EventChannel();
+					eventChannel.push({
+						start: 10,
+						end: 100
+					});
+					var clearDurations = eventChannel.getClearDurations(0,50);
+					expect(clearDurations.length).to.equal(1);
+					expect(clearDurations[0].start).to.equal(0);
+					expect(clearDurations[0].end).to.equal(10);
+				});
+				
+				it('returns a shortened array when only the last bit fits', function() {
+					eventChannel = new EventChannel();
+					eventChannel.push({
+						start: 0,
+						end: 10
+					});
+					var clearDurations = eventChannel.getClearDurations(5,20);
+					expect(clearDurations.length).to.equal(1);
+					expect(clearDurations[0].start).to.equal(10);
+					expect(clearDurations[0].end).to.equal(20);
+				});
+				
+				it('breaks an event into 2 pieces when something in the middle', function() {
+					eventChannel = new EventChannel();
+					eventChannel.push({
+						start: 5,
+						end: 10
+					});
+					var clearDurations = eventChannel.getClearDurations(0,20);
+					expect(clearDurations.length).to.equal(2);
+					expect(clearDurations[0].start).to.equal(0);
+					expect(clearDurations[0].end).to.equal(5);
+					expect(clearDurations[1].start).to.equal(10);
+					expect(clearDurations[1].end).to.equal(20);
+				});
+				
+				it('breaks an event into n+1 pieces when n discontinuous elements are in the middle', function() {
+					eventChannel = new EventChannel();
+					eventChannel.push({
+						start: 5,
+						end: 10
+					}, {
+						start: 15,
+						end: 20
+					}, {
+						start: 25,
+						end: 30
+					});
+					var clearDurations = eventChannel.getClearDurations(0,35);
+					expect(clearDurations.length).to.equal(4);
+					expect(clearDurations[0].start).to.equal(0);
+					expect(clearDurations[0].end).to.equal(5);
+					expect(clearDurations[1].start).to.equal(10);
+					expect(clearDurations[1].end).to.equal(15);
+				});
+				
+				it('doesnt die on continuous events', function() {
+					eventChannel = new EventChannel();
+					eventChannel.push({
+						start: 5,
+						end: 10
+					}, {
+						start: 10,
+						end: 20
+					});
+					var clearDurations = eventChannel.getClearDurations(0,35);
+					expect(clearDurations.length).to.equal(2);
+				});
+				
 			});
 			
 			describe('push(ev)', function() {

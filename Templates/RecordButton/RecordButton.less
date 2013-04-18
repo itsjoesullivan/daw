@@ -1,15 +1,23 @@
-@height: 30px;
-@width: 28px;
+@height: 40px;
+@width: 38px;
 
 .push-button.record-button {
-	width:@width;
-	height:@height;
 	position:relative;
+	background: #1d0d0e; /* Old browsers */
+	background: -moz-linear-gradient(top, #1d0d0e 0%, #301a19 1%, #552925 4%, #70342e 5%, #9e3a34 8%, #b13f37 9%, #b53933 10%, #b13727 12%, #b13727 94%, #b9392e 96%, #c0453e 97%, #b0453f 99%, #6f2019 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1d0d0e), color-stop(1%,#301a19), color-stop(4%,#552925), color-stop(5%,#70342e), color-stop(8%,#9e3a34), color-stop(9%,#b13f37), color-stop(10%,#b53933), color-stop(12%,#b13727), color-stop(94%,#b13727), color-stop(96%,#b9392e), color-stop(97%,#c0453e), color-stop(99%,#b0453f), color-stop(100%,#6f2019)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #1d0d0e 0%,#301a19 1%,#552925 4%,#70342e 5%,#9e3a34 8%,#b13f37 9%,#b53933 10%,#b13727 12%,#b13727 94%,#b9392e 96%,#c0453e 97%,#b0453f 99%,#6f2019 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #1d0d0e 0%,#301a19 1%,#552925 4%,#70342e 5%,#9e3a34 8%,#b13f37 9%,#b53933 10%,#b13727 12%,#b13727 94%,#b9392e 96%,#c0453e 97%,#b0453f 99%,#6f2019 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #1d0d0e 0%,#301a19 1%,#552925 4%,#70342e 5%,#9e3a34 8%,#b13f37 9%,#b53933 10%,#b13727 12%,#b13727 94%,#b9392e 96%,#c0453e 97%,#b0453f 99%,#6f2019 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #1d0d0e 0%,#301a19 1%,#552925 4%,#70342e 5%,#9e3a34 8%,#b13f37 9%,#b53933 10%,#b13727 12%,#b13727 94%,#b9392e 96%,#c0453e 97%,#b0453f 99%,#6f2019 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1d0d0e', endColorstr='#6f2019',GradientType=0 ); /* IE6-9 */
+
+	border-left: 1px solid #B13F37;
 }
 
-@radius: 12px;
-@topOffset: (@height / 2 - @radius / 2);
-@leftOffset: (@width / 2 - @radius / 2);
+@radius: 18px;
+@topOffset: (@height / 2 - @radius / 2 + 1);
+@leftOffset: (@width / 2 - @radius / 2 + 1);
 
 .record-button .circle {
 	width: @radius; 
@@ -18,5 +26,5 @@
 	left: @leftOffset;
 	position:absolute;
 	border-radius:@radius;
-	background-color:red;
+	background-color:#FCF3A8;
 }

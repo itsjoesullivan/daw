@@ -1,17 +1,21 @@
-describe(function() {
-	var MockSource = function(name,log) {
+define(function() {
+	var MockSource = function(name,log,duration) {
 		this.name = name;
 		this.log = log;
 	};
 	MockSource.prototype.noteOn = function(val) {
-		log('noteOn',this.name,this.val);
+		log('noteOn',this.name,val);
 	};
 	MockSource.prototype.noteOff = function(val) {
-		log('noteOff',this.name,this.val);
+		log('noteOff',this.name,val);
 	};
-	var MockSound = function(name,log) {
+	MockSource.prototype.connect = function() {};
+	var MockSound = function(name,log,duration) {
 		this.name = name;
 		this.log = log;
+		this.buffer = {
+			duration: duration || 1
+		};
 	};
 	MockSound.prototype.generateSource = function() {
 		return new MockSource(this.name,this.log);

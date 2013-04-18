@@ -10,6 +10,13 @@ define([
 		this.master = new ChannelStrip({
 			out: context.destination
 		});
+		
+		this.masterController = new ChannelStripController({
+			el: $(".master-channel-container"),
+			model: this.master
+		});
+		$(".master-channel-container").find(".ChannelStrip").addClass('master');
+		$(".master-channel-container").find(".ChannelStripKnob").addClass('red');
 		this.userInput = conf.userInput;
 
 		//create channels
@@ -20,6 +27,8 @@ define([
 				timeline: this.timeline
 			}));
 		}
+		
+		
 	
 
 		//create controllers for channels + render

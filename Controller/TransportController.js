@@ -5,18 +5,23 @@ define([
 	'/templates/PlayButton/PlayButton.js',
 	'/templates/RecordButton/RecordButton.js',
 	'/templates/StopButton/StopButton.js',
-	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate) {
+	'/templates/FFButton/FFButton.js',
+	'/templates/RWButton/RWButton.js',
+	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate,ffButtonTemplate,rwButtonTemplate) {
 	var TransportController = function(conf) {
 		this.el = conf.el;
 		this.timeline = conf.timeline;
 	
-		$(this.el).append(transportTemplate);
-
-		
-		$(this.el).append(recordButtonTemplate);
-		$(this.el).append(playButtonTemplate);
+		$(this.el).append(transportTemplate);		
+		$(this.el).append(rwButtonTemplate);
+		$(this.el).append(rwButtonTemplate);
+		$(this.el).append(ffButtonTemplate);
+		$(this.el).append(ffButtonTemplate);
+		$(this.el).append('<br>');
 		$(this.el).append(stopButtonTemplate);
-		$(this.el).append(pushButtonTemplate);
+		$(this.el).append(playButtonTemplate);
+		$(this.el).append(recordButtonTemplate);
+		
 		
 		this.playButton = $(this.el).find('.play-button');
 		

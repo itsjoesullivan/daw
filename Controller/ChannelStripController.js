@@ -2,7 +2,8 @@ define([
 	'backbone',
 	'/templates/ChannelStrip/ChannelStrip.js',
 	'/templates/ChannelStripFader/ChannelStripFader.js',
-	'/templates/ChannelStripKnob/ChannelStripKnob.js'],function(Backbone,channelStripTemplate,channelStripFaderTemplate,channelStripKnobTemplate) {
+	'/templates/ChannelStripKnob/ChannelStripKnob.js',
+	'/templates/ChannelStripPan/ChannelStripPan.js'],function(Backbone,channelStripTemplate,channelStripFaderTemplate,channelStripKnobTemplate,channelStripPanTemplate) {
 
 	/** Handles channel strip. Expects to be passed a channel and an el */
 	var ChannelStripController = function(conf) {
@@ -15,7 +16,11 @@ define([
 		$(el).append(channelStripTemplate);
 		this.channelEl = $(el).find('.ChannelStrip');
 		
-		$(this.el).find(".label").html(this.channel.label);
+		$(this.el).find(".channel-label").html(this.channel.label);
+		
+		//console.log(channelStripPanTemplate);
+		
+		$(this.el).find('.pan-container').html(channelStripPanTemplate);
 
 		$(this.channelEl).find(".ChannelStripFaderContainer").append(channelStripFaderTemplate);
 		this.faderEl = $(el).find('.ChannelStripFader');
@@ -63,7 +68,6 @@ define([
 		$()
 
 		this.channel.on('change:gain', function() {
-			console.log('gain change');
 			this.moveKnob();
 		},this);
 

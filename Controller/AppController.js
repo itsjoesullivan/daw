@@ -29,6 +29,11 @@ define([
 			//$(this.el).hide();
 			$(this.el).append(appTemplate);
 			
+			$('.time').html(secondDisplayTemplate({
+				one: 0,
+				ten: 0,
+				hundred: 0
+			}));
 			this.timeline.on('second', function(seconds) {
 				seconds = seconds % 1000;
 				var vals = {
@@ -37,21 +42,24 @@ define([
 					one: seconds % 10
 				};
 				$('.time').html(secondDisplayTemplate(vals));
-				$('.time .digit.one').animate({
-					top:'-=15'
-				}, 1000, 'linear');
-				if(vals.one === 9) {
-					$('.time .digit.ten').animate({
-						top:'-=15'
-					}, 1000, 'linear');
-					if(vals.ten === 9) {
-						$('.time .digit.hundred').animate({
-							top:'-=15'
-						}, 1000, 'linear');
+				if(this.timeline.status === 'running') {
+					$('.time .digit.one').animate({
+						top:'-=24'
+					}, 100, 'swing');
+					if(vals.one === 9) {
+						$('.time .digit.ten').animate({
+							top:'-=24'
+						}, 100, 'swing');
+						if(vals.ten === 9) {
+							$('.time .digit.hundred').animate({
+								top:'-=24'
+							}, 100, 'swing');
+						}
 					}
 				}
 				
-			});
+				
+			},this);
 		
 			
 	

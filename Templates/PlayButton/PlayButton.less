@@ -1,19 +1,21 @@
-@height: 30px;
-@width: 100px;
+@height: 40px;
+@width: 92px;
+
+@horizontal: 18px;
+@vertical: 10px;
 
 .push-button.play-button {
 	width:@width;
-	height:@height;
 	position:relative;
 }
 
 .play-button .triangle {
 	width: 0; 
 	height: 0; 
-	top:8px;
-	left: ( @width / 2 - 2px);
+	top:10px;
+	left: ( @width / 2 - 7px);
 	position:absolute;
-	border-top: (@height / 4) solid transparent;
-	border-bottom: (@height / 4) solid transparent;
-	border-left: (@height / 3) solid green;
+	border-top: (@vertical) solid transparent;
+	border-bottom: (@vertical) solid transparent;
+	border-left: (@horizontal) solid #316D2C;
 }

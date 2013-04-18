@@ -6,6 +6,8 @@ define(['underscore','backbone','/Model/Recording.js'], function(_,Backbone,Reco
 var ChannelStrip = function(conf) {
 	_.extend(this,Backbone.Events);
 	this.input = context.createGain();
+	this.bankInput = context.createGain();
+	this.bankInput.connect(this.input);
 	this.output = context.createGain();
 	this.timeline = conf.timeline;
 	this.armed = false;
@@ -20,9 +22,23 @@ var ChannelStrip = function(conf) {
 		input.connect(effect.input);
 		input = effect.output;
 	});
-	input.connect(this.output);
+	
+	this.panner = context.createPanner();
+	input.connect(this.panner);
+	this.panner.connect(this.output);
+	
+	this.panner.setPosition(-2,0,0);
 
 	this.output.connect(conf.out);
+	
+	this.on('change:armed', function(val) {
+		if(val) {
+			this.bankInput.disconnect();
+			console.log('disconnecting other things');
+		} else {
+			this.bankInput.connect(this.input);
+		}
+	})
 };
 
 ChannelStrip.prototype.set = function(k,v) {
@@ -42,8 +58,9 @@ ChannelStrip.prototype.arm = function() {
 	var soundEvent = {
 		type: 'note',
 		at: this.timeline.position(),
-		output: this.output
-	}
+		output: this.bankInput,
+		channel: this.label
+	};
 	
 	var onStop = function() {
 		console.log('stopping recording');
@@ -55,12 +72,9 @@ ChannelStrip.prototype.arm = function() {
 		this.set('armed',false);
 	};
 	var onRun = function() {
-		console.log('starting recording');
-		if(!('recording' in this)) {
-			this.recording = new Recording({
-				input: this.output
-			});
-		}
+		this.recording = new Recording({
+			input: this.output
+		});
 		this.recording.recording = true;
 		this.timeline.once('stop', onStop, this);
 	}
