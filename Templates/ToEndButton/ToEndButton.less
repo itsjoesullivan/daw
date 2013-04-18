@@ -1,0 +1,29 @@
+@height: 40px;
+@width: 38px;
+
+.push-button.beginning-button {
+	position:relative;
+}
+
+.end-button .triangle {
+	width: 0; 
+	height: 0; 
+	top:10px;
+	position:absolute;
+	border-top: (@height / 4) solid transparent;
+	border-bottom: (@height / 4) solid transparent;
+	border-left: (@height / 3) solid #FCF3A8;
+}
+
+.end-button .triangle.one {
+	left: ( @width / 2 - 5px);
+}
+
+.end-button .vertical-line {
+	position:absolute;
+	width: 2px;
+	height:20px;
+	background-color:#fcf3a8;
+	top:10px;
+	left:25px;
+}

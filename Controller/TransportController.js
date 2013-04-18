@@ -7,8 +7,9 @@ define([
 	'/templates/StopButton/StopButton.js',
 	'/templates/FFButton/FFButton.js',
 	'/templates/RWButton/RWButton.js',
-	'/templates/ToBeginningButton/ToBeginningButton.js'
-	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate,ffButtonTemplate,rwButtonTemplate,beginningButtonTemplate) {
+	'/templates/ToBeginningButton/ToBeginningButton.js',
+	'/templates/ToEndButton/ToEndButton.js'
+	],function(_,transportTemplate,pushButtonTemplate,playButtonTemplate,recordButtonTemplate,stopButtonTemplate,ffButtonTemplate,rwButtonTemplate,beginningButtonTemplate,endButtonTemplate) {
 	var TransportController = function(conf) {
 		this.el = conf.el;
 		this.timeline = conf.timeline;
@@ -17,7 +18,7 @@ define([
 		$(this.el).append(beginningButtonTemplate);
 		$(this.el).append(rwButtonTemplate);
 		$(this.el).append(ffButtonTemplate);
-		$(this.el).append(ffButtonTemplate);
+		$(this.el).append(endButtonTemplate);
 		$(this.el).append('<br>');
 		$(this.el).append(stopButtonTemplate);
 		$(this.el).append(playButtonTemplate);
@@ -62,7 +63,6 @@ define([
 		
 		this.toBeginningButton = $(this.el).find('.beginning-button');
 		$(this.toBeginningButton).click(function() {	
-			console.log('click');
 			var running = this.timeline.status === 'running';
 			if(running) {
 				this.timeline.stop();
@@ -72,6 +72,20 @@ define([
 				this.timeline.run();
 			}
 		}.bind(this));
+		
+		this.endButtonTemplate = $(this.el).find('.end-button');
+		$(this.endButtonTemplate).click(function() {	
+			var running = this.timeline.status === 'running';
+			if(running) {
+				this.timeline.stop();
+			}
+			this.timeline.position(this.timeline.position() + 20);
+			if(running) {
+				this.timeline.run();
+			}
+		}.bind(this));
+		
+		
 
 	};
 
