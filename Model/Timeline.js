@@ -26,6 +26,9 @@ When running, we are going somewhere, so calculate the difference in context.cur
 */
 Timeline.prototype.position = function(pos) {
 	if(pos || typeof pos === 'number') {
+		if(pos < 0) {
+			pos = 0;
+		}
 		this._position = pos;
 		this.trigger('second',Math.round(this.position()));
 	} else {
