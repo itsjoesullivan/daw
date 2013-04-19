@@ -63,6 +63,14 @@
 	margin-top:5px;
 }
 
+.ChannelStrip .button-label {
+font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 500;
+font-size:10px;
+text-align:center;
+color: #471E30;
+}
+
 .ChannelStrip .button-container {
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 	   font-weight: 500;
@@ -84,7 +92,6 @@
 .ChannelStrip.master .eq {
 	display:none;
 }
-
 .ChannelStrip.master .channel-label {
 	display:none;
 }
@@ -97,11 +104,13 @@
 .ChannelStrip.master{
 	border:none;
 }
+.ChannelStrip.master .send-container{
+	display:none;
+}
 .ChannelStrip.master .pan-container{
 	margin-top:0px;
 	display:none;
 }
-
 
 .ChannelStrip .button {
 	font-family: Verdana;
@@ -136,4 +145,11 @@
 	background: -ms-linear-gradient(top, #817e9c 0%,#b2b7c9 1%,#d2d9e6 2%,#edeef2 5%,#f3f5fc 6%,#fafefd 7%,#fdfeff 8%,#f8f9f1 9%,#ebece4 10%,#e1e0dc 12%,#dbdbd9 13%,#d7d9d4 15%,#ced1c8 17%,#cfd2c9 20%,#cbd0c9 21%,#cad0c8 23%,#cfcdd0 28%,#cacdc6 33%,#cbcdca 35%,#c6c9c2 40%,#c8c9c1 42%,#cacaca 45%,#c8c9c4 47%,#c6c8bb 51%,#c5c8bf 55%,#c4c5bd 56%,#c3c4be 59%,#c5c5c3 62%,#bfc5bd 65%,#c3c4bc 69%,#c1c2ba 71%,#c1c2bd 74%,#bfc0b8 77%,#bfbfbd 83%,#bdbeb8 86%,#b9bab7 92%,#b7b5b0 94%,#b6b4a2 95%,#aeb09b 97%,#adab99 98%,#a29c7c 99%,#8e8962 100%); /* IE10+ */
 	background: linear-gradient(to bottom, #817e9c 0%,#b2b7c9 1%,#d2d9e6 2%,#edeef2 5%,#f3f5fc 6%,#fafefd 7%,#fdfeff 8%,#f8f9f1 9%,#ebece4 10%,#e1e0dc 12%,#dbdbd9 13%,#d7d9d4 15%,#ced1c8 17%,#cfd2c9 20%,#cbd0c9 21%,#cad0c8 23%,#cfcdd0 28%,#cacdc6 33%,#cbcdca 35%,#c6c9c2 40%,#c8c9c1 42%,#cacaca 45%,#c8c9c4 47%,#c6c8bb 51%,#c5c8bf 55%,#c4c5bd 56%,#c3c4be 59%,#c5c5c3 62%,#bfc5bd 65%,#c3c4bc 69%,#c1c2ba 71%,#c1c2bd 74%,#bfc0b8 77%,#bfbfbd 83%,#bdbeb8 86%,#b9bab7 92%,#b7b5b0 94%,#b6b4a2 95%,#aeb09b 97%,#adab99 98%,#a29c7c 99%,#8e8962 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#817e9c', endColorstr='#8e8962',GradientType=0 ); /* IE6-9 */
+}
+
+
+.pan-container {
+	position:relative;
+	left:35px;
+	height:40px;
 }

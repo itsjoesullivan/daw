@@ -1,0 +1,83 @@
+@width: 200px;
+
+
+.vu-display .needle {
+top:30px;
+position:relative;
+height: 150px;
+width:2px;
+border:none;
+background-color:#333;
+}
+
+.vu-display .needle-holder {
+	height:(@width*1.5);
+	width:1px;
+	position:relative;
+	margin:auto;
+}
+
+.vu-display {
+	z-index:1;
+	width:100%;
+	left:-2px;
+	overflow:hidden;
+	height:(@width/2);
+	position:relative;
+	border:2px solid;
+	border-color: #222 #8C782B #CCAD3F #B29537;
+	background: #560d00; /* Old browsers */
+	background: -moz-linear-gradient(top, #560d00 0%, #ad542a 1%, #be5c13 2%, #dd751c 2%, #ffa548 3%, #e27d25 4%, #ffac59 5%, #ca6924 5%, #f9b538 6%, #f6bc2a 7%, #fcc433 9%, #fed03f 12%, #fccc3a 12%, #ffdd4e 18%, #fcd844 22%, #fcc642 88%, #fdc145 90%, #f7b547 92%, #ffb856 93%, #e29638 94%, #ffab44 95%, #ce7c19 95%, #f79a33 96%, #f99b39 97%, #ea8b37 98%, #ffa55f 98%, #ca7441 99%, #6b1900 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#560d00), color-stop(1%,#ad542a), color-stop(2%,#be5c13), color-stop(2%,#dd751c), color-stop(3%,#ffa548), color-stop(4%,#e27d25), color-stop(5%,#ffac59), color-stop(5%,#ca6924), color-stop(6%,#f9b538), color-stop(7%,#f6bc2a), color-stop(9%,#fcc433), color-stop(12%,#fed03f), color-stop(12%,#fccc3a), color-stop(18%,#ffdd4e), color-stop(22%,#fcd844), color-stop(88%,#fcc642), color-stop(90%,#fdc145), color-stop(92%,#f7b547), color-stop(93%,#ffb856), color-stop(94%,#e29638), color-stop(95%,#ffab44), color-stop(95%,#ce7c19), color-stop(96%,#f79a33), color-stop(97%,#f99b39), color-stop(98%,#ea8b37), color-stop(98%,#ffa55f), color-stop(99%,#ca7441), color-stop(100%,#6b1900)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #560d00 0%,#ad542a 1%,#be5c13 2%,#dd751c 2%,#ffa548 3%,#e27d25 4%,#ffac59 5%,#ca6924 5%,#f9b538 6%,#f6bc2a 7%,#fcc433 9%,#fed03f 12%,#fccc3a 12%,#ffdd4e 18%,#fcd844 22%,#fcc642 88%,#fdc145 90%,#f7b547 92%,#ffb856 93%,#e29638 94%,#ffab44 95%,#ce7c19 95%,#f79a33 96%,#f99b39 97%,#ea8b37 98%,#ffa55f 98%,#ca7441 99%,#6b1900 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #560d00 0%,#ad542a 1%,#be5c13 2%,#dd751c 2%,#ffa548 3%,#e27d25 4%,#ffac59 5%,#ca6924 5%,#f9b538 6%,#f6bc2a 7%,#fcc433 9%,#fed03f 12%,#fccc3a 12%,#ffdd4e 18%,#fcd844 22%,#fcc642 88%,#fdc145 90%,#f7b547 92%,#ffb856 93%,#e29638 94%,#ffab44 95%,#ce7c19 95%,#f79a33 96%,#f99b39 97%,#ea8b37 98%,#ffa55f 98%,#ca7441 99%,#6b1900 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #560d00 0%,#ad542a 1%,#be5c13 2%,#dd751c 2%,#ffa548 3%,#e27d25 4%,#ffac59 5%,#ca6924 5%,#f9b538 6%,#f6bc2a 7%,#fcc433 9%,#fed03f 12%,#fccc3a 12%,#ffdd4e 18%,#fcd844 22%,#fcc642 88%,#fdc145 90%,#f7b547 92%,#ffb856 93%,#e29638 94%,#ffab44 95%,#ce7c19 95%,#f79a33 96%,#f99b39 97%,#ea8b37 98%,#ffa55f 98%,#ca7441 99%,#6b1900 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #560d00 0%,#ad542a 1%,#be5c13 2%,#dd751c 2%,#ffa548 3%,#e27d25 4%,#ffac59 5%,#ca6924 5%,#f9b538 6%,#f6bc2a 7%,#fcc433 9%,#fed03f 12%,#fccc3a 12%,#ffdd4e 18%,#fcd844 22%,#fcc642 88%,#fdc145 90%,#f7b547 92%,#ffb856 93%,#e29638 94%,#ffab44 95%,#ce7c19 95%,#f79a33 96%,#f99b39 97%,#ea8b37 98%,#ffa55f 98%,#ca7441 99%,#6b1900 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#560d00', endColorstr='#6b1900',GradientType=0 ); /* IE6-9 */
+	box-shadow: 0px 0px 10px #F99B39;
+
+}
+
+.vu {
+	width:@width;
+}
+
+
+.vu .border{ 
+	border:2px solid;
+	border-color: #222 #222 #222 #222;
+	width:100%;
+	padding:7px 10px;
+	background: #4c4c4c; /* Old browsers */
+	background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #666666 25%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #2b2b2b 76%, #1c1c1c 91%, #131313 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4c4c), color-stop(12%,#595959), color-stop(25%,#666666), color-stop(39%,#474747), color-stop(50%,#2c2c2c), color-stop(51%,#000000), color-stop(60%,#111111), color-stop(76%,#2b2b2b), color-stop(91%,#1c1c1c), color-stop(100%,#131313)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #4c4c4c 0%,#595959 12%,#666666 25%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#2b2b2b 76%,#1c1c1c 91%,#131313 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 ); /* IE6-9 */
+	z-index:1;
+}
+
+.vu .label {
+position:absolute;
+font-size:1em;
+color:#333;
+top:20px;
+right:10px;
+font-family:'Helvetica';
+z-index:3;
+
+}
+
+.vu-backdrop {
+position:absolute;
+top:15px;
+left:6px;
+	width:100%;
+	height:100%;
+	background-image: url('/texture/vu_back_alt2.png');
+	z-index:2;
+	background-size: @width - 10;
+	background-repeat:no-repeat;
+}
