@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+	<script src='/lib/require.js'></script>
+	<script src='/conf.js'></script>	
+</head>
+<body>
+	<div class="mock-container">
+		<div class="led-container"></div>
+	</div>
+	<script src='/context.js'></script>
+<script>
+
+require([
+		'jquery',
+		'/templates/LED/LED.js'
+	], function($,ledTemplate) {
+		$('.led-container').append(ledTemplate);
+		console.log(ledTemplate);
+		
+		var colors = ['red','green','yellow','blue'];
+		
+		var offset = 2000;
+		var ct = 0;
+		var last = colors[colors.length-1];
+		$('.led-container').find('.led-bulb').addClass('blue');
+		setInterval(function() {
+			$('.led-container').find('.led-bulb').toggleClass('on');
+		},500)
+		colors.forEach(function(color) {
+			setTimeout(function() {
+				setInterval(function() {
+					$('.led-container').find('.led-bulb').removeClass(last);
+					$('.led-container').find('.led-bulb').addClass(color);
+					last = color
+				},offset * colors.length);
+			},ct++ * offset)
+		})
+		
+		
+		
+		
+		
+});
+
+</script>
+
+<style>
+
+	.mock-container {
+		position:relative;
+		background-color:#ccc;
+		padding:20px;
+	}
+
+</style>
+
+</body>
+</html>
