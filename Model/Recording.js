@@ -1,4 +1,4 @@
-define(['/Model/Sound.js'],function(Sound) {
+define(['/Model/Sound.js','/lib/Recorderjs/recorder.js'],function(Sound,Rjs) {
 
 	var concatBuffers = function(buffer1,buffer2) {
 		var newBuffer = context.createBuffer( 2, (buffer1.length + buffer2.length), buffer1.sampleRate );
@@ -18,13 +18,26 @@ define(['/Model/Sound.js'],function(Sound) {
 		this.node.connect(context.destination);
 		this.recording = false;
 		this.input.connect(this.node);
+		this.worker = new Worker('/lib/Recorderjs/recorderWorker.js');
+		this.worker.onmessage = function(e){
+	      var blob = e.data;
+	      curCallback(blob);
+	    }
+		this.worker.postMessage({
+	      command: 'init',
+	      config: {
+	        sampleRate: context.sampleRate
+	      }
+	    });
 		this.node.onaudioprocess = function(e) {
 			if(this.recording) {
-				if(!('audioBuffer' in this)) {
-					this.audioBuffer = e.inputBuffer;
-				}
-				//immediately switch to speed up this fn
-				this.node.onaudioprocess = handleAudioProcess.bind(this);
+				this.worker.postMessage({
+		        command: 'record',
+		        buffer: [
+		          e.inputBuffer.getChannelData(0),
+		          e.inputBuffer.getChannelData(1)
+		        ]
+		      });
 			}
 		}.bind(this);
 			
@@ -44,17 +57,25 @@ define(['/Model/Sound.js'],function(Sound) {
 		var sound = new Sound({buffer: this.audioBuffer});
 		return sound;
 	};
-
-
-function handleAudioProcess(e) {
-	if(this.recording) {
-		if(!('audioBuffer' in this)) {
-			this.audioBuffer = e.inputBuffer;
-		} else {
-			this.audioBuffer = concatBuffers(this.audioBuffer,e.inputBuffer);
-		}
+	
+	Recording.prototype.render = function(cb) {
+		curCallback = function(data) {
+			console.log(data);
+			var newBuffer = context.createBuffer( 2, (data[0].length), context.sampleRate );
+			for (var i=0; i<2; i++) {
+			      var channel = newBuffer.getChannelData(i);
+			      channel.set( data[i], 0);
+			}
+			this.audioBuffer = newBuffer;
+			window.audioBuffer = data;
+			cb(data);
+		}.bind(this);
+		this.worker.postMessage({ command: 'getBuffer' })
 	}
-};
+	
+	function curCallBack(blob) {
+		console.log('got:',blob);
+	}
 	
 return Recording;
 	

@@ -80,9 +80,14 @@ ChannelStrip.prototype.arm = function() {
 	var onStop = function() {
 		console.log('stopping recording');
 		this.recording.recording = false;
-		var sound = this.recording.toSound();
-		soundEvent.sound = sound;
-		this.timeline.add(soundEvent);
+		this.recording.render(function(data) {
+			console.log('data');
+			
+			var sound = this.recording.toSound();
+			soundEvent.sound = sound;
+			this.timeline.add(soundEvent);
+		}.bind(this));
+		
 		
 		this.set('armed',false);
 	};
