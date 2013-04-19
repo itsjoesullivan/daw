@@ -5,7 +5,8 @@ define([
 	'/templates/ChannelStripKnob/ChannelStripKnob.js',
 	'/templates/ChannelStripPan/ChannelStripPan.js',
 	'/Controller/KnobController.js',
-	'/Controller/EQController.js'],function(Backbone,channelStripTemplate,channelStripFaderTemplate,channelStripKnobTemplate,channelStripPanTemplate,KnobController,EQController) {
+	'/Controller/EQController.js',
+	'/templates/LED/LED.js'],function(Backbone,channelStripTemplate,channelStripFaderTemplate,channelStripKnobTemplate,channelStripPanTemplate,KnobController,EQController,ledTemplate) {
 
 	/** Handles channel strip. Expects to be passed a channel and an el */
 	var ChannelStripController = function(conf) {
@@ -109,15 +110,22 @@ define([
 			$(self.knobEl).show();
 		},1,self);
 		
+		$(".solo-led-container",this.el).append(ledTemplate);
+		$(".solo-led-container",this.el).find('.led-bulb').addClass('yellow');
+		
 		//add listener for arm knob
+		$(".arm-led-container",this.el).append(ledTemplate);
+		$(".arm-led-container",this.el).find('.led-bulb').addClass('red');
 		$(".armed",this.el).click(function(el) {
 			this.channel.arm();
 		}.bind(this));
 		this.channel.on('change:armed', function(armed,channel) {
 			if(!armed) {
+				$(".arm-led-container",this.el).find('.led-bulb').removeClass('on');
 				$(".armed",this.el).removeClass("active");
 			} else {
 				$(".armed",this.el).addClass("active");
+				$(".arm-led-container",this.el).find('.led-bulb').addClass('on');
 			}
 		}.bind(this));
 
