@@ -35,7 +35,6 @@ Effect.prototype.set = function(key,val) {
 	}
 };
 Effect.prototype.setWet = function(val) {
-	console.log('setWet',val);
 	this.dry.gain.value = 1-val;
 	this.wetChannel.gain.value = val;
 };
