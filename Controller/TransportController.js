@@ -43,7 +43,7 @@ define([
 			if(running) {
 				this.timeline.stop();
 			}
-			this.timeline.position(this.timeline.position() + 2);
+			this.timeline.position(this.timeline.position() + 1);
 			if(running) {
 				this.timeline.run();
 			}
@@ -55,7 +55,7 @@ define([
 			if(running) {
 				this.timeline.stop();
 			}
-			this.timeline.position(this.timeline.position() - 2);
+			this.timeline.position(this.timeline.position() - 1);
 			if(running) {
 				this.timeline.run();
 			}

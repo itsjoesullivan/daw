@@ -5,8 +5,9 @@ define([
 	'/Controller/TransportController.js',
 	'/templates/App/App.js',
 	'/Model/Input.js',
-	'/templates/SecondDisplay/SecondDisplay.js'
-	], function($,Timeline,MixerController,TransportController,appTemplate,Input,secondDisplayTemplate) {
+	'/templates/SecondDisplay/SecondDisplay.js',
+	'/Controller/VUController.js'
+	], function($,Timeline,MixerController,TransportController,appTemplate,Input,secondDisplayTemplate,VUController) {
 		
 		var AppController = function(conf) {
 			
@@ -67,6 +68,11 @@ define([
 				el: $(this.el).find(".mixer"),
 				timeline:this.timeline,
 				userInput: this.userInput
+			});
+			
+			this.vu1 = new VUController({
+				el: $(".vu-container"),
+				input: this.mixerController.master.output
 			});
 
 			this.transportController = new TransportController({

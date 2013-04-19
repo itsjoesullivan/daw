@@ -1,6 +1,8 @@
 define([
 	'/Model/ChannelStrip.js',
-	'/Controller/ChannelStripController.js'], function(ChannelStrip,ChannelStripController) {
+	'/Controller/ChannelStripController.js',
+	'/Model/Effects/Reverb.js',
+	'/Controller/KnobController.js'], function(ChannelStrip,ChannelStripController,Reverb,KnobController) {
 	
 	var MixerController = function(conf) {
 		
@@ -27,6 +29,19 @@ define([
 				timeline: this.timeline
 			}));
 		}
+		
+		
+		var reverb = new Reverb({
+			wet: 1
+		});
+		
+		reverb.output.connect(context.destination);
+		
+		this.channels.forEach(function(channel) {
+			channel.send.connect(reverb.input);
+		},this);
+		
+		
 		
 		
 	

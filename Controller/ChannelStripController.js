@@ -21,24 +21,66 @@ define([
 		$(el).append(channelStripTemplate);
 		this.channelEl = $(el).find('.ChannelStrip');
 		
-
-		
-		var eqController = new EQController({
-			el: $('.eq-section',this.el)
-		});
-		
 		$(this.el).find(".channel-label").html(this.channel.label);
 		
-		//console.log(channelStripPanTemplate);
-		
-		$(this.el).find('.pan-container').html(channelStripPanTemplate);
 
+		//set up EQ
+		var eqController = new EQController({
+			el: $('.eq-section',this.el),
+			eQ: this.channel.eQ
+		});
+		
+		
+		//set up pan
+		var pan = 0;
+
+		var panKnobController = new KnobController({
+			el: $(this.el).find('.pan-container'),
+			range: 270
+		});
+		panKnobController.on('change', function(val) {
+			pan += val/100;
+			if(pan > 1) {
+				pan = 1;
+			}
+			if(pan < -1) {
+				pan = -1;
+			}
+			panKnobController.update(pan);
+		});
+		
+		
+		var verbController = new KnobController({
+			el: $(".send.i",this.el)
+		});
+		verbController.on('change', function(val) {
+			console.log(val);
+			var oldVal = this.channel.send.gain.value;
+			var newVal = oldVal += val/100;
+			if(newVal > 1) {
+				newVal = 1;
+			}
+			if(newVal < 0) {
+				newVal = 0;
+			}
+			this.channel.send.gain.value = newVal;
+			verbController.update(newVal);
+		},this)
+		
+		console.log(verbController);
+		
+		
+		//add fader
 		$(this.channelEl).find(".ChannelStripFaderContainer").append(channelStripFaderTemplate);
 		this.faderEl = $(el).find('.ChannelStripFader');
 
+		//add knob to fader...
 		$(this.faderEl).append(channelStripKnobTemplate);
 		this.knobEl = $(el).find('.ChannelStripKnob');
+		$(this.knobEl).hide();
 		
+		
+		//add listener for fader knob
 		var self = this;
 		var isDragging = false;
 		var mouseVal = [0,0];
@@ -61,6 +103,13 @@ define([
 		    }
 		});
 		
+		//trigger knob once
+		setTimeout(function() {
+			self.moveKnob();
+			$(self.knobEl).show();
+		},1,self);
+		
+		//add listener for arm knob
 		$(".armed",this.el).click(function(el) {
 			this.channel.arm();
 		}.bind(this));
@@ -72,11 +121,7 @@ define([
 			}
 		}.bind(this));
 
-		setTimeout(function() {
-			self.moveKnob();
-		},100,self);
 		
-		$()
 
 		this.channel.on('change:gain', function() {
 			this.moveKnob();
