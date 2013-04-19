@@ -9,6 +9,8 @@ define([
 		var KnobController = function(conf) {
 			this.range = conf.range || 180;
 			
+			this.offset = (conf.offset || 0) + 44;
+			
 			_.extend(this,Backbone.Events);
 			
 			this.el = conf.el;
@@ -44,11 +46,11 @@ define([
 			this.update(conf.defaultValue || 0);
 		}
 		
-		var offset = 44;
+		//var offset = 44;
 		
 		KnobController.prototype.update = function(val) {
 			$(this.knobEl).css({
-				'-webkit-transform': 'rotate(' + (offset + val * this.range /2) + 'deg)'
+				'-webkit-transform': 'rotate(' + (this.offset + val * this.range) + 'deg)'
 			});
 		};
 		

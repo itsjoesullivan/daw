@@ -6,8 +6,9 @@ define([
 	'/templates/App/App.js',
 	'/Model/Input.js',
 	'/templates/SecondDisplay/SecondDisplay.js',
-	'/Controller/VUController.js'
-	], function($,Timeline,MixerController,TransportController,appTemplate,Input,secondDisplayTemplate,VUController) {
+	'/Controller/VUController.js',
+	'/Controller/RhythmBoxController.js'
+	], function($,Timeline,MixerController,TransportController,appTemplate,Input,secondDisplayTemplate,VUController,RhythmBoxController) {
 		
 		var AppController = function(conf) {
 			
@@ -61,6 +62,9 @@ define([
 				
 				
 			},this);
+			
+			
+			
 		
 			
 	
@@ -68,6 +72,11 @@ define([
 				el: $(this.el).find(".mixer"),
 				timeline:this.timeline,
 				userInput: this.userInput
+			});
+			
+			var rhythmBoxController = new RhythmBoxController({
+				el: $(".rhythm-box-container"),
+				output: this.mixerController.channels[3].output
 			});
 			
 			this.vu1 = new VUController({

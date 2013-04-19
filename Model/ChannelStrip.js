@@ -9,7 +9,10 @@ var ChannelStrip = function(conf) {
 	this.bankInput = context.createGain();
 	this.bankInput.connect(this.input);
 	this.output = context.createGain();
-	this.timeline = conf.timeline;
+	if('timeline' in conf) {
+		this.timeline = conf.timeline;
+	}
+	
 	this.armed = false;
 	
 	this.label = conf.label || '';
@@ -30,11 +33,15 @@ var ChannelStrip = function(conf) {
 	this.input.connect(this.eQ.input);
 	this.eQ.output.connect(this.pan.input);
 	this.pan.output.connect(this.output);
-	this.output.connect(conf.out);
+	
+	if('out' in conf) {
+		this.output.connect(conf.out);
+	}
+	
 	
 	this.send = context.createGainNode();
 	this.output.connect(this.send);
-	this.send.gain.value = 1;
+	this.send.gain.value = 0;
 	
 	this.on('change:armed', function(val) {
 		if(val) {

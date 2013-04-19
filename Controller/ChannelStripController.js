@@ -56,7 +56,8 @@ define([
 		
 		var verbController = new KnobController({
 			el: $(".send.i",this.el),
-			size: 'small'
+			size: 'small',
+			offset: -90
 		});
 		verbController.on('change', function(val) {
 			console.log(val);
