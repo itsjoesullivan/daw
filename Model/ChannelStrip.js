@@ -1,4 +1,4 @@
-define(['underscore','backbone','/Model/Recording.js'], function(_,Backbone,Recording) {
+define(['underscore','backbone','/Model/Recording.js','/Model/Effects/EQ.js'], function(_,Backbone,Recording,EQ) {
 
 /** Your basic channel strip
 
@@ -17,19 +17,34 @@ var ChannelStrip = function(conf) {
 	this.effects = conf.effects || [];
 	
 	/* Connect the effects */
-	var input = this.input;
+	var nextInput = this.input;
 	this.effects.forEach(function(effect) {
-		input.connect(effect.input);
-		input = effect.output;
+		nextInput.connect(effect.input);
+		nextInput = effect.output;
 	});
 	
+	
+	
+	
 	this.panner = context.createPanner();
-	input.connect(this.output);
+	
+	this.eQ = new EQ();
+	this.eQ.output.connect(this.output);
+	
+	
+	this.input.connect(this.eQ.input);
 	//this.panner.connect(this.output);
 	
 	//this.panner.setPosition(0,0,0);
+	// 
+	// 
+	// 
 
 	this.output.connect(conf.out);
+	
+	this.send = context.createGainNode();
+	this.output.connect(this.send);
+	this.send.gain.value = 1;
 	
 	this.on('change:armed', function(val) {
 		if(val) {
