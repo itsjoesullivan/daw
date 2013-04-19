@@ -1,119 +1,112 @@
 @grey: #666;
 
+
+
+._knob (@diameter: 30px) {
+	
+
+	position:relative;
+	width:@diameter;
+	height:@diameter;
+	.circle {
+		background-color:@grey;
+		width:@diameter;
+		height:@diameter;
+		top:0px;
+		left:-(@diameter / 30)px;
+		border-radius:@diameter;
+		z-index:1;
+		position:relative;
+		box-shadow: 0px 0px 0px @diameter / 60 @grey;
+	}
+	
+	.inner-circle {
+		@inner-diameter: (@diameter - 4px);
+		background-color:#fff;
+		width:@inner-diameter;
+		height:@inner-diameter;
+		border-radius:@inner-diameter;
+		z-index:1;
+		position:absolute;
+		top: .8 + @diameter / 60;
+		left: .8 + @diameter / 60;
+		border: 1px solid white;
+	}
+	
+	.notch {
+
+		background-color:@grey;
+		position:absolute;
+		z-index:1;
+		width:@diameter / 10;
+		top: 1 + @diameter / (30/2.5);
+		left:2 + @diameter / (30/6.6);
+		height:@diameter / 3;
+		-webkit-transform:rotate(-44deg); /* Safari and Chrome */
+
+	}
+	
+	.point {
+		position:absolute;
+		width:@diameter;
+		height:@diameter;
+		top:0px;
+	}
+	
+	
+	.dent {
+		box-shadow: 0px 0px @diameter / 30 @grey;
+		width: @diameter / (30/8);
+		height: (@diameter / 4);
+		top:0px;
+		left:@diameter / 5;
+		position:absolute;
+		background: @grey; 
+		border-radius: (@diameter / 3);
+		-webkit-transform:rotate(46deg); /* Safari and Chrome */
+	}
+}
+
 .knob {
-	position:relative;
-	width:30px;
-	height:30px;
+	._knob;
 }
 
-.knob .circle {
-	background-color:@grey;
-	width:30px;
-	height:30px;
-	top:0px;
-	left:-1px;
-	border-radius:30px;
-	z-index:1;
-	position:relative;
-	box-shadow: 0px 0px 0px .5px @grey;
-	
-}
-.knob .inner-circle {
-	background-color:#fff;
-	width:26px;
-	height:26px;
-	border-radius:30px;
-	z-index:1;
-	position:absolute;
-	top:.5px;
-	left:.5px;
-	border: 1px solid white;
+.knob.small {
+	._knob(20px);
 }
 
-
-.knob .notch {
-	
-	background-color:@grey;
-	position:absolute;
-	z-index:1;
-	width:3px;
-	top:3.4px;
-	left:6.6px;
-	height:9px;
-	-webkit-transform:rotate(-44deg); /* Safari and Chrome */
-	
+.knob.large {
+	._knob(40px);
 }
-
-
-
 
 @rotate-degrees: 36deg;
 
-
-.knob .point {
-	position:absolute;
-	width:30px;
-	height:30px;
-	top:0px;
-}
-
-
-
-.knob .point .dent {
-box-shadow: 0px 0px 3px @grey;
-	   width: 8px;
-	   height: 10px;
-		top:0px;
-		left:1px;
-	position:absolute;
-	   background: @grey; 
-	   border-radius: 10px;
-	-webkit-transform:rotate(46deg); /* Safari and Chrome */
-}
-
 .knob .point.ii {
 	-webkit-transform:rotate(@rotate-degrees); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.iii {
 	-webkit-transform:rotate((2*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.iv {
 	-webkit-transform:rotate((3*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.v {
 	-webkit-transform:rotate((4*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.vi {
 	-webkit-transform:rotate((5*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.vii {
 	-webkit-transform:rotate((6*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.viii {
 	-webkit-transform:rotate((7*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.ix {
 	-webkit-transform:rotate((8*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
-
 .knob .point.x {
 	-webkit-transform:rotate((9*@rotate-degrees)); /* Safari and Chrome */
-	z-index:0;
 }
 
 /* colors */

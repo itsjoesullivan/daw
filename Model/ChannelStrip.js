@@ -1,4 +1,4 @@
-define(['underscore','backbone','/Model/Recording.js','/Model/Effects/EQ.js'], function(_,Backbone,Recording,EQ) {
+define(['underscore','backbone','/Model/Recording.js','/Model/Effects/EQ.js','/Model/Effects/Pan.js'], function(_,Backbone,Recording,EQ,Pan) {
 
 /** Your basic channel strip
 
@@ -24,22 +24,12 @@ var ChannelStrip = function(conf) {
 	});
 	
 	
-	
-	
-	this.panner = context.createPanner();
-	
 	this.eQ = new EQ();
-	this.eQ.output.connect(this.output);
-	
+	this.pan = new Pan();
 	
 	this.input.connect(this.eQ.input);
-	//this.panner.connect(this.output);
-	
-	//this.panner.setPosition(0,0,0);
-	// 
-	// 
-	// 
-
+	this.eQ.output.connect(this.pan.input);
+	this.pan.output.connect(this.output);
 	this.output.connect(conf.out);
 	
 	this.send = context.createGainNode();
@@ -70,6 +60,7 @@ ChannelStrip.prototype.set = function(k,v) {
 
 ChannelStrip.prototype.arm = function() {
 	
+	
 	var soundEvent = {
 		type: 'note',
 		at: this.timeline.position(),
@@ -86,6 +77,7 @@ ChannelStrip.prototype.arm = function() {
 			var sound = this.recording.toSound();
 			soundEvent.sound = sound;
 			this.timeline.add(soundEvent);
+			//delete this.recording;
 		}.bind(this));
 		
 		
@@ -93,7 +85,8 @@ ChannelStrip.prototype.arm = function() {
 	};
 	var onRun = function() {
 		this.recording = new Recording({
-			input: this.output
+			input: this.output,
+			channel: this.label
 		});
 		this.recording.recording = true;
 		this.timeline.once('stop', onStop, this);

@@ -4,9 +4,26 @@ require([
 	], function($,knobTemplate) {
 		
 		console.log(knobTemplate);
-		$("body").append(knobTemplate());
 		
-		var knobDeg = 46;
+		
+		$("body").append(knobTemplate({
+			size: 'small',
+			color: 'green'
+		}));
+		
+		$("body").append(knobTemplate({
+			size: 'medium',
+			color: 'green'
+		}));
+		
+		
+		
+		$("body").append(knobTemplate({
+			size: 'large',
+			color: 'green'
+		}));
+		
+		var knobDeg = 20;
 		
 		$(".knob")
 		.mousedown(function(e) {

@@ -14,7 +14,10 @@ define([
 			this.el = conf.el;
 			this.onChange = conf.onChange;
 			
-			$(this.el).append(knobTemplate());
+			$(this.el).append(knobTemplate({
+				color: conf.color || 'green',
+				size: conf.size || 'medium'
+			}));
 			
 			this.knobEl = $(".knob",this.el);
 			

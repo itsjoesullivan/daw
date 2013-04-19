@@ -37,7 +37,8 @@ define([
 
 		var panKnobController = new KnobController({
 			el: $(this.el).find('.pan-container'),
-			range: 270
+			range: 270,
+			size: 'medium'
 		});
 		panKnobController.on('change', function(val) {
 			pan += val/100;
@@ -47,12 +48,15 @@ define([
 			if(pan < -1) {
 				pan = -1;
 			}
+			console.log(pan);
 			panKnobController.update(pan);
-		});
+			this.channel.pan.setLevels(pan);
+		}.bind(this));
 		
 		
 		var verbController = new KnobController({
-			el: $(".send.i",this.el)
+			el: $(".send.i",this.el),
+			size: 'small'
 		});
 		verbController.on('change', function(val) {
 			console.log(val);
